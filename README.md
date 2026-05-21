@@ -30,4 +30,4 @@ The wiki is a folder of plain markdown files in a fixed directory structure (`00
 
 ## clo-author
 
-A worker/critic agent pipeline for research papers. Copy `clo-author-template/` into your project folder, fill in three lines at the top of `CLAUDE.md`, and start with `/wiki-pull [your topic]`. See `clo-author-template/README.md` for the full workflow.
+A worker/critic agent pipeline for research papers developed by Hugo Sant'Anna (https://github.com/hugosantanna/clo-author). Copy `clo-author-template/` into your project folder, fill in three lines at the top of `CLAUDE.md`, and start with `/wiki-pull [your topic]`. See `clo-author-template/README.md` for the full workflow.
