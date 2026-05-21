@@ -1,0 +1,27 @@
+# Personal local config — each user creates their own
+VAULT_PATH
+
+# Local Claude Code settings (machine-specific, not shared)
+.claude/
+
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.vrb
+*.synctex.gz
+
+# Python
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
