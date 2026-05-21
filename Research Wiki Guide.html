@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LLM-Wiki + clo-author — Research Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f6f2;--sidebar:#0d1117;--sidebar-text:#8b949e;--sidebar-active:#f0f6fc;
+  --accent:#16c784;--accent-dim:rgba(22,199,132,0.15);
+  --blue:#60a5fa;--blue-dim:rgba(96,165,250,0.12);
+  --purple:#a78bfa;--purple-dim:rgba(167,139,250,0.12);
+  --code-bg:#161b22;--code-text:#c9d1d9;
+  --border:#e4e4e0;--text:#1c1c1e;--text-muted:#6e6e73;
+  --radius:10px;
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden;display:flex;flex-direction:column}
+
+/* LANDING */
+#landing{position:fixed;inset:0;background:#0d1117;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:2rem;z-index:100;transition:opacity .4s,visibility .4s;overflow-y:auto}
+#landing.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.landing-logo{font-size:.8rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--accent);margin-bottom:14px}
+.landing-title{font-size:2.4rem;font-weight:700;color:#f0f6fc;letter-spacing:-.03em;margin-bottom:.5rem;text-align:center}
+.landing-sub{color:var(--sidebar-text);font-size:.95rem;text-align:center;max-width:520px;margin-bottom:2.5rem;line-height:1.6}
+.path-cards{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;max-width:920px}
+.path-card{background:#161b22;border:1.5px solid #30363d;border-radius:14px;padding:1.75rem;width:275px;cursor:pointer;transition:border-color .2s,transform .15s;display:flex;flex-direction:column;gap:.75rem}
+.path-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.path-card.blue:hover{border-color:var(--blue)}
+.path-card.purple:hover{border-color:var(--purple)}
+.path-icon{font-size:1.6rem}
+.path-title{font-size:1rem;font-weight:700;color:#f0f6fc}
+.path-desc{font-size:.8rem;color:var(--sidebar-text);line-height:1.5}
+.path-list{list-style:none;display:flex;flex-direction:column;gap:.3rem;margin-top:.3rem}
+.path-list li{font-size:.75rem;color:#8b949e;display:flex;align-items:center;gap:.4rem}
+.path-list li::before{content:'·';color:var(--accent);font-size:1rem}
+.path-card.blue .path-list li::before{color:var(--blue)}
+.path-card.purple .path-list li::before{color:var(--purple)}
+.path-btn{margin-top:auto;padding:.5rem 1rem;border:none;border-radius:6px;font-size:.85rem;font-weight:700;cursor:pointer;font-family:inherit;background:var(--accent);color:#0d1117}
+.path-card.blue .path-btn{background:var(--blue)}
+.path-card.purple .path-btn{background:var(--purple)}
+
+/* GUIDE */
+#guide{display:flex;height:100vh;opacity:0;transition:opacity .3s}
+#guide.visible{opacity:1}
+#sidebar{width:268px;min-width:268px;background:var(--sidebar);display:flex;flex-direction:column;overflow:hidden;border-right:1px solid #21262d}
+.sb-header{padding:1.1rem 1rem .9rem;border-bottom:1px solid #21262d}
+.sb-logo{font-size:.75rem;font-weight:700;color:#f0f6fc;letter-spacing:.07em;text-transform:uppercase;margin-bottom:.7rem}
+.tab-switcher{display:flex;gap:3px;background:#161b22;border-radius:6px;padding:3px}
+.tab-btn{flex:1;padding:.28rem .3rem;font-size:.68rem;font-weight:700;font-family:inherit;border:none;background:transparent;color:var(--sidebar-text);cursor:pointer;border-radius:4px;transition:all .15s;white-space:nowrap}
+.tab-btn.active{background:var(--accent);color:#0d1117}
+.tab-btn.active.blue{background:var(--blue)}
+.tab-btn.active.purple{background:var(--purple)}
+.sb-steps{flex:1;overflow-y:auto;padding:.65rem 0}
+.sb-step{display:flex;align-items:center;gap:.6rem;padding:.5rem 1rem;cursor:pointer;transition:background .15s}
+.sb-step:hover{background:rgba(255,255,255,.04)}
+.sb-step.active{background:rgba(255,255,255,.06)}
+.step-num{width:22px;height:22px;border-radius:50%;border:1.5px solid #30363d;display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:700;color:var(--sidebar-text);flex-shrink:0;transition:all .2s}
+.sb-step.active .step-num{border-color:var(--accent);color:var(--accent)}
+.sb-step.done .step-num{background:var(--accent);border-color:var(--accent);color:#0d1117}
+.sb-step.active.blue .step-num{border-color:var(--blue);color:var(--blue)}
+.sb-step.done.blue .step-num{background:var(--blue);border-color:var(--blue);color:#0d1117}
+.sb-step.active.purple .step-num{border-color:var(--purple);color:var(--purple)}
+.sb-step.done.purple .step-num{background:var(--purple);border-color:var(--purple);color:#0d1117}
+.step-label{font-size:.76rem;color:var(--sidebar-text);line-height:1.3}
+.sb-step.active .step-label{color:var(--sidebar-active);font-weight:600}
+.sb-step.done .step-label{color:#58a6ff}
+.sb-footer{padding:.9rem 1rem;border-top:1px solid #21262d}
+.sb-footer a{font-size:.73rem;color:#58a6ff;text-decoration:none;display:block;margin-bottom:.35rem}
+.sb-footer a:hover{color:var(--accent)}
+
+/* MAIN */
+#main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:var(--bg)}
+.main-topbar{display:flex;align-items:center;justify-content:space-between;padding:.65rem 2rem;border-bottom:1px solid var(--border);background:#fff;flex-shrink:0}
+.step-counter{font-size:.73rem;color:var(--text-muted);font-weight:500}
+.os-toggle{display:flex;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.os-btn{padding:.28rem .75rem;font-size:.75rem;font-weight:600;font-family:inherit;border:none;background:transparent;color:var(--text-muted);cursor:pointer;transition:all .15s}
+.os-btn.active{background:#f0f6fc;color:var(--text);box-shadow:inset 0 0 0 1px #c8d1da}
+.main-content{flex:1;overflow-y:auto;padding:2rem 2.25rem}
+.step-header{margin-bottom:1.5rem}
+.step-tag{font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:.4rem}
+.step-tag.blue{color:var(--blue)}
+.step-tag.purple{color:var(--purple)}
+.step-title{font-size:1.5rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.3rem}
+.step-subtitle{color:var(--text-muted);font-size:.88rem;line-height:1.55}
+.step-body{max-width:700px}
+.step-body h3{font-size:.85rem;font-weight:700;margin:1.4rem 0 .55rem;text-transform:uppercase;letter-spacing:.04em;color:var(--text-muted)}
+.step-body p{font-size:.88rem;line-height:1.65;color:#3a3a3c;margin-bottom:.75rem}
+.step-body ul{padding-left:1.1rem;margin-bottom:.75rem}
+.step-body ul li{font-size:.86rem;line-height:1.6;color:#3a3a3c;margin-bottom:.25rem}
+.code-block{position:relative;background:var(--code-bg);border-radius:8px;padding:.9rem 1rem .9rem 1.1rem;margin:.5rem 0 .9rem;border:1px solid #21262d}
+.code-block pre{overflow-x:auto}
+.code-block code{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--code-text);line-height:1.65;white-space:pre}
+.copy-btn{position:absolute;top:.45rem;right:.45rem;padding:.22rem .55rem;background:#21262d;color:#8b949e;border:1px solid #30363d;border-radius:5px;font-size:.66rem;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s}
+.copy-btn:hover{background:#30363d;color:#f0f6fc}
+.callout{border-radius:8px;padding:.75rem 1rem;margin:.9rem 0;font-size:.84rem;line-height:1.55}
+.callout.tip{background:#f0fdf8;border:1px solid #bbf7d0;color:#166534}
+.callout.warn{background:#fefce8;border:1px solid #fde68a;color:#92400e}
+.callout.info{background:#eff6ff;border:1px solid #93c5fd;color:#1e40af}
+.callout.wiki{background:#f5f3ff;border:1px solid #c4b5fd;color:#4c1d95}
+.callout.stop{background:#f0fdf8;border:2px solid var(--accent);color:#0d1117;text-align:center;padding:1.1rem 1.4rem}
+.callout.stop h3{font-size:.95rem;margin:0 0 .4rem;color:#0d1117;font-weight:700;text-transform:none;letter-spacing:0}
+.callout.stop p{color:#374151;font-size:.85rem;margin:0}
+.os-section{display:none}
+.os-section.show{display:block}
+ic{color:var(--accent);font-style:normal}
+code{font-family:'JetBrains Mono',monospace;font-size:.8em;background:#2d333b;color:#adbac7;padding:.12rem .4rem;border-radius:3px}
+.cols{display:grid;gap:1rem}
+.c2{grid-template-columns:1fr 1fr}
+.c3{grid-template-columns:1fr 1fr 1fr}
+.card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:1rem 1.1rem}
+.card h3{font-size:.88rem;font-weight:700;margin-bottom:.4rem}
+.card p{font-size:.82rem;color:var(--text-muted);line-height:1.5;margin:0}
+.section-tab-label{font-size:.62rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--sidebar-text);padding:.4rem 1rem .2rem;margin-top:.4rem}
+table.ref{width:100%;border-collapse:collapse;margin:.5rem 0 1rem}
+table.ref th{text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);padding-bottom:.5rem;border-bottom:1.5px solid var(--border)}
+table.ref td{padding:.5rem 0;border-bottom:1px solid var(--border);font-size:.82rem;vertical-align:top;line-height:1.4}
+table.ref td:first-child{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--accent);width:220px;padding-right:1rem}
+table.ref td:last-child{color:#5a5a5a}
+.pipe-diagram{background:var(--code-bg);border:1px solid #21262d;border-radius:8px;padding:.9rem 1.1rem;font-family:'JetBrains Mono',monospace;font-size:.76rem;color:#c9d1d9;line-height:1.65;margin:.6rem 0 1rem;overflow-x:auto;white-space:pre}
+.flow-steps{display:flex;flex-direction:column;gap:.5rem;margin:.5rem 0}
+.flow-step{display:flex;gap:.7rem;align-items:flex-start}
+.flow-num{width:24px;height:24px;border-radius:50%;background:var(--accent);color:#0d1117;font-size:.68rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+.flow-num.b{background:var(--blue)}
+.flow-num.p{background:var(--purple)}
+.flow-body{font-size:.86rem;line-height:1.5;color:#3a3a3c}
+.flow-body strong{display:block;margin-bottom:.15rem}
+.check-grid{display:grid;grid-template-columns:1fr 1fr;gap:.6rem 2rem}
+.chk{display:flex;gap:.6rem;align-items:flex-start}
+.cnum{width:22px;height:22px;border-radius:50%;background:var(--accent);color:#0d1117;font-size:.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem}
+.cbody{font-size:.83rem;line-height:1.45}
+.cbody strong{display:block;margin-bottom:.3rem}
+.main-nav{display:flex;align-items:center;justify-content:space-between;padding:.65rem 2rem;border-top:1px solid var(--border);background:#fff;flex-shrink:0}
+.nav-btn{padding:.5rem 1.1rem;border-radius:7px;font-size:.82rem;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid var(--border);transition:all .15s}
+.nav-btn.back{background:#fff;color:var(--text)}
+.nav-btn.back:hover{background:var(--bg)}
+.nav-btn.next{background:var(--text);color:#fff;border-color:var(--text)}
+.nav-btn.next:hover{background:#333}
+.nav-btn.next.green{background:var(--accent);color:#0d1117;border-color:var(--accent)}
+.nav-btn.next.blue{background:var(--blue);color:#0d1117;border-color:var(--blue)}
+.nav-btn.next.purple{background:var(--purple);color:#0d1117;border-color:var(--purple)}
+</style>
+</head>
+<body>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="landing-logo">LLM-Wiki + clo-author</div>
+  <div class="landing-title">Research OS Guide</div>
+  <p class="landing-sub">A complete guide to the wiki and the research pipeline. Pick where you want to start.</p>
+  <div class="path-cards">
+    <div class="path-card" onclick="startGuide('setup',0)">
+      <div class="path-icon">🌱</div>
+      <div class="path-title">Complete Setup</div>
+      <div class="path-desc">New to the system. Walk me through installation, the wiki, and the full research workflow.</div>
+      <ul class="path-list">
+        <li>Install tools &amp; configure</li>
+        <li>Learn the wiki</li>
+        <li>Learn clo-author integration</li>
+      </ul>
+      <button class="path-btn">Start from the beginning →</button>
+    </div>
+    <div class="path-card blue" onclick="startGuide('wiki',0)">
+      <div class="path-icon">📚</div>
+      <div class="path-title">Wiki Only</div>
+      <div class="path-desc">Already set up. I want to use the wiki on its own — without the full research pipeline.</div>
+      <ul class="path-list" style="--accent:var(--blue)">
+        <li>Vault structure</li>
+        <li>Ingest, query, maintain</li>
+        <li>Daily habit</li>
+      </ul>
+      <button class="path-btn">Jump to wiki usage →</button>
+    </div>
+    <div class="path-card purple" onclick="startGuide('clo',0)">
+      <div class="path-icon">🔬</div>
+      <div class="path-title">Full System</div>
+      <div class="path-desc">Wiki is configured. I want the clo-author pipeline and how it connects to the wiki.</div>
+      <ul class="path-list">
+        <li>Project setup &amp; session rhythm</li>
+        <li>Discovery → write → review</li>
+        <li>Checkpoint &amp; closing the loop</li>
+      </ul>
+      <button class="path-btn">Jump to clo-author →</button>
+    </div>
+  </div>
+</div>
+
+<!-- GUIDE -->
+<div id="guide">
+  <aside id="sidebar">
+    <div class="sb-header">
+      <div class="sb-logo" id="sb-logo">Research OS Guide</div>
+      <div class="tab-switcher">
+        <button class="tab-btn" id="tab-setup" onclick="switchSection('setup')">Setup</button>
+        <button class="tab-btn blue" id="tab-wiki" onclick="switchSection('wiki')">Wiki</button>
+        <button class="tab-btn purple" id="tab-clo" onclick="switchSection('clo')">clo-author</button>
+      </div>
+    </div>
+    <div class="sb-steps" id="sb-steps"></div>
+    <div class="sb-footer">
+      <a href="https://github.com/svwangenheim/llm-wiki" target="_blank">↗ GitHub repository</a>
+      <a href="#" onclick="backToLanding()">↺ Change path</a>
+    </div>
+  </aside>
+  <main id="main">
+    <div class="main-topbar">
+      <span class="step-counter" id="step-counter"></span>
+      <div class="os-toggle">
+        <button class="os-btn" id="os-mac" onclick="setOS('mac')">macOS</button>
+        <button class="os-btn" id="os-win" onclick="setOS('win')">Windows</button>
+      </div>
+    </div>
+    <div class="main-content">
+      <div class="step-header">
+        <div class="step-tag" id="step-tag"></div>
+        <div class="step-title" id="step-title"></div>
+        <div class="step-subtitle" id="step-subtitle"></div>
+      </div>
+      <div class="step-body" id="step-body"></div>
+    </div>
+    <div class="main-nav">
+      <button class="nav-btn back" id="btn-back" onclick="goBack()">← Back</button>
+      <button class="nav-btn next" id="btn-next" onclick="goNext()">Next →</button>
+    </div>
+  </main>
+</div>
+
+<script>
+const cb = (code, sm) => `<div class="code-block"><button class="copy-btn" onclick="copyCode(this)">Copy</button><pre><code>${code.trim()}</code></pre></div>`;
+const tip = t => `<div class="callout tip">💡 ${t}</div>`;
+const warn = t => `<div class="callout warn">⚠️ ${t}</div>`;
+const info = t => `<div class="callout info">ℹ️ ${t}</div>`;
+const wiki = t => `<div class="callout wiki">📚 <strong>Wiki-only note:</strong> ${t}</div>`;
+const stop = (h,t) => `<div class="callout stop"><h3>${h}</h3><p>${t}</p></div>`;
+const mac = html => `<div class="os-section mac-only">${html}</div>`;
+const win = html => `<div class="os-section win-only">${html}</div>`;
+const ic = s => `<ic>${s}</ic>`;
+
+const SECTIONS = {
+  setup: {
+    label: 'Setup',
+    color: 'green',
+    steps: ['s-welcome','s-start','s-git','s-python','s-interfaces','s-get-wiki','s-skills','s-configure','s-obsidian','s-verify']
+  },
+  wiki: {
+    label: 'Wiki',
+    color: 'blue',
+    steps: ['w-structure','w-ingest','w-pull','w-push','w-maintain','w-habit']
+  },
+  clo: {
+    label: 'clo-author',
+    color: 'purple',
+    steps: ['c-overview','c-setup','c-rhythm','c-discover','c-execute','c-review','c-checkpoint','c-close']
+  }
+};
+
+const STEPS = {
+
+/* ───── SETUP ───── */
+'s-welcome': {
+  tag:'Setup', title:'What is this system?', subtitle:'A knowledge base that persists across projects, and a research pipeline that draws on it.',
+  body: () => `
+    <p><strong>LLM-Wiki</strong> is a folder of plain markdown files on your computer — a knowledge base that accumulates across all your research projects. Papers, methods, datasets, and concepts you document here are available to every future project automatically, without any manual copying or re-reading.</p>
+    <p><strong>clo-author</strong> is a project folder template with a set of AI agents that handle literature search, identification strategy, data analysis, writing, and peer review simulation. Each project gets its own folder but reads from and writes back to the shared wiki.</p>
+    <p><strong>Example:</strong> You study the impact of public childcare on maternal labour market outcomes in 2025. You ingest the relevant papers into the wiki. In 2026, a follow-up project looks at childcare and child development outcomes. Claude already knows the literature, the datasets, and the methods used before — those are pulled in automatically.</p>
+    ${info('<strong>Scope:</strong> clo-author is well-suited for <strong>empirical analyses</strong> — projects with microdata, identification strategies, and regression-based analysis (DiD, RDD, IV). For policy memos, conceptual texts, or shorter reports, the wiki on its own is usually enough. Not every DZ project needs the full pipeline.')}
+    <div class="pipe-diagram">LLM-Wiki (vault)  →  feeds into  →  clo-author project
+LLM-Wiki (vault)  ←  enriched by  ←  clo-author project</div>
+    <p>You browse the wiki in <strong>Obsidian</strong> (a free markdown reader). Claude Code keeps it up to date — creating summaries, concept pages, and cross-links whenever you ingest a source or save session knowledge.</p>
+    ${info('The wiki works as a standalone system without clo-author. The wiki section of this guide is self-contained.')}
+  `
+},
+
+'s-start': {
+  tag:'Setup', title:'Before you begin', subtitle:'Which steps you need depends on what is already installed on your machine.',
+  body: () => `
+    <div class="cols c2">
+      <div class="card" style="border-left:3px solid var(--accent)">
+        <h3>🌱 Complete beginner</h3>
+        <p>No Git, Python, or Claude Code yet. Follow <strong>every step</strong> in order — each one is explained from scratch.</p>
+      </div>
+      <div class="card" style="border-left:3px solid var(--blue)">
+        <h3>⚡ Already have Git and Python</h3>
+        <p>Skip steps 3 (Install Git) and 4 (Install Python). Continue from step 5 (Choose your interface).</p>
+      </div>
+    </div>
+    ${warn('<strong>Python not found in the terminal?</strong> If you have Python or Anaconda installed but <code>python --version</code> or <code>conda --version</code> don\'t respond in Terminal / Git Bash, the installation is likely not registered in your system PATH. Step 4 includes instructions for diagnosing and fixing this — worth checking even if you installed Python some time ago.')}
+    <h3>Estimated time</h3>
+    <ul>
+      <li>Complete beginner: ~30–40 minutes (includes all installs)</li>
+      <li>Already have Git + Python: ~10–15 minutes</li>
+      <li>First paper ingested: ~5 minutes after setup</li>
+    </ul>
+    ${tip('Keep this guide open next to your terminal. Every command block has a Copy button — no need to type commands manually.')}
+  `
+},
+
+'s-git': {
+  tag:'Setup', title:'Install Git', subtitle:'Git is used to download LLM-Wiki and version your work.',
+  body: () => `
+    ${info('<strong>🌱 Beginners only.</strong> Not sure if you already have Git? Open Terminal (macOS) or Git Bash (Windows) and run <code>git --version</code>. If you see a version number like <code>git version 2.x.x</code>, Git is already installed — skip this step and continue to step 3.')}
+    ${mac(`
+      <h3>Option A — Homebrew (recommended)</h3>
+      <p>Homebrew is a package manager for macOS. If you don't have it yet, install it first:</p>
+      ${cb('/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"')}
+      <p>Then install Git:</p>
+      ${cb('brew install git')}
+      <h3>Option B — Xcode Command Line Tools (no Homebrew needed)</h3>
+      ${cb('xcode-select --install\n# A dialog will appear — click Install')}
+    `)}
+    ${win(`
+      <h3>Download Git for Windows</h3>
+      <ol style="padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem;font-size:.86rem;color:#3a3a3c">
+        <li>Go to <strong>git-scm.com/download/win</strong> and download the installer</li>
+        <li>Run the installer — accept all defaults</li>
+        <li>On the component screen, keep <strong>"Git Bash Here"</strong> ticked</li>
+        <li>After install: open <strong>Git Bash</strong> from the Start menu — use it for all terminal commands in this guide</li>
+      </ol>
+      ${warn('Use <strong>Git Bash</strong> for every terminal command in this guide — not PowerShell or cmd.exe.')}
+    `)}
+    <h3>Verify</h3>
+    ${cb('git --version\n# Expected: git version 2.x.x')}
+    ${tip('If you see a version number, you\'re good. Close and reopen your terminal if git isn\'t found immediately after install.')}
+  `
+},
+
+'s-python': {
+  tag:'Setup', title:'Install Python — Anaconda', subtitle:'Anaconda gives you Python, pip, and conda in one installer. Needed for markitdown, which converts PDFs.',
+  body: () => `
+    ${info('<strong>🌱 Beginners only (fresh install).</strong> If you already have Python 3.10+ and pip working, scroll down to <strong>Verify</strong> and check. If that passes, skip this step. If you have Anaconda installed but it\'s not responding in the terminal, see the <strong>Already installed?</strong> section below.')}
+    <h3>Why Anaconda, not plain Python?</h3>
+    <p>You can install Python from python.org, but Anaconda is better for research workflows:</p>
+    <ul>
+      <li><strong>Bundled setup:</strong> Python, pip, and conda come pre-installed — no extra configuration.</li>
+      <li><strong>Prevents conflicts:</strong> Conda manages a clean environment, reducing the "works on my machine" problems common with data-science packages.</li>
+      <li><strong>Standard in research:</strong> Most Python tutorials and analysis scripts assume an Anaconda-style setup. markitdown and other tools install cleanly into it.</li>
+    </ul>
+    <h3>Already have Anaconda installed but it's not working in the terminal?</h3>
+    <p>This usually means Anaconda was installed without being added to your system PATH — so the terminal can't find it. Here's how to fix it without reinstalling:</p>
+    ${mac(`
+      <p>Open Terminal and check:</p>
+      ${cb('conda --version\n# If you see a version number → you are fine, skip to Verify below')}
+      <p>If the command is not found, locate your Anaconda folder and register it:</p>
+      ${cb('# Try one of these common locations:\nls ~/anaconda3          # most common\nls ~/opt/anaconda3      # alternative on some Macs\n\n# Once you find it, run:\n~/anaconda3/bin/conda init zsh\nsource ~/.zshrc\n# Then test again: conda --version')}
+    `)}
+    ${win(`
+      <p>Open Git Bash and check:</p>
+      ${cb('conda --version\n# If you see a version number → you are fine, skip to Verify below')}
+      <p>If the command is not found, use <strong>Anaconda Prompt</strong> to register conda in Git Bash:</p>
+      <ol style="padding-left:1.1rem;display:flex;flex-direction:column;gap:.5rem;font-size:.86rem;color:#3a3a3c">
+        <li>Press the <strong>Windows key</strong> and type <strong>Anaconda Prompt</strong> — open it from the search results</li>
+        <li>In the Anaconda Prompt window, type <code>conda init bash</code> and press Enter</li>
+        <li>Close Anaconda Prompt, then <strong>close and reopen Git Bash</strong></li>
+        <li>Test in Git Bash: <code>conda --version</code> — it should now show a version number</li>
+      </ol>
+      ${tip('If Anaconda Prompt doesn\'t appear in the Start menu, Anaconda is not installed yet. Continue with the fresh install below.')}
+      <p style="margin-top:.75rem">Alternatively, you can add Anaconda manually to your Windows PATH:</p>
+      <ol style="padding-left:1.1rem;display:flex;flex-direction:column;gap:.5rem;font-size:.86rem;color:#3a3a3c">
+        <li>Press the Windows key, search for <strong>"Edit the system environment variables"</strong> and open it</li>
+        <li>Click <strong>Environment Variables</strong> at the bottom right</li>
+        <li>Under <strong>User variables</strong>, select <strong>Path</strong> and click <strong>Edit</strong></li>
+        <li>Click <strong>New</strong> and add these three lines (replace YOUR_USERNAME):<br>
+          <code>C:&#92;Users&#92;YOUR_USERNAME&#92;anaconda3</code><br>
+          <code>C:&#92;Users&#92;YOUR_USERNAME&#92;anaconda3&#92;Scripts</code><br>
+          <code>C:&#92;Users&#92;YOUR_USERNAME&#92;anaconda3&#92;Library&#92;bin</code>
+        </li>
+        <li>Click OK on all windows, then reopen Git Bash</li>
+      </ol>
+    `)}
+    <h3>Fresh install: Download Anaconda</h3>
+    <p>Go to <strong>anaconda.com/download</strong> and download the installer for your operating system. The file is large (~800 MB) — this may take a few minutes.</p>
+    ${mac(`
+      <h3>Install on macOS</h3>
+      <p>Open the downloaded <code>.pkg</code> file and follow the installer steps — click Continue and accept all defaults. Then open Terminal and run:</p>
+      ${cb('conda init zsh\nsource ~/.zshrc')}
+      <p>This registers Anaconda so that <code>python</code> and <code>pip</code> are available in every new terminal session.</p>
+    `)}
+    ${win(`
+      <h3>Install on Windows</h3>
+      <p>Open the downloaded <code>.exe</code> file and follow the installer. When you reach the <strong>"Advanced Installation Options"</strong> screen, check the box <strong>"Add Anaconda3 to my PATH environment variable"</strong>. Then open Git Bash and run:</p>
+      ${cb('conda init bash\nsource ~/.bashrc')}
+      ${warn('<strong>Important:</strong> Close and reopen Git Bash after running these commands. Changes only take effect in a new session.')}
+    `)}
+    <h3>Verify</h3>
+    <p>Run these in Terminal (macOS) or Git Bash (Windows):</p>
+    ${cb('python --version\n# Expected: Python 3.11.x or higher\n\npip --version\n# Expected: pip 24.x.x')}
+    ${tip('All Python commands in this guide run inside the conda <strong>base</strong> environment, which is active by default. You don\'t need to create a separate environment.')}
+  `
+},
+
+'s-interfaces': {
+  tag:'Setup', title:'Choose your Claude Code interface', subtitle:'Relevant for everyone. All three options share the same settings — skills and vault access work identically across them.',
+  body: () => `
+    ${info('This step is <strong>relevant for everyone</strong> — whether you only want to use the wiki, or the full clo-author pipeline. Pick whichever interface fits your workflow best. The Node.js install at the bottom is only needed if you choose the Terminal option.')}
+    <div class="cols c3" style="margin-bottom:1.2rem">
+      <div class="card" style="border-top:3px solid var(--accent)">
+        <h3>A — Terminal</h3>
+        <p>Classic CLI. Full control, works anywhere. Requires Node.js.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--blue)">
+        <h3>B — Desktop App</h3>
+        <p>GUI app, no Node.js needed. Download from <strong>claude.ai/download</strong>.</p>
+      </div>
+      <div class="card" style="border-top:3px solid var(--purple)">
+        <h3>C — VS Code</h3>
+        <p>Claude Code inside your editor. Install from VS Code marketplace.</p>
+      </div>
+    </div>
+    <h3>Opening a terminal (for installation commands)</h3>
+    ${mac(`<ul>
+      <li><strong>Spotlight</strong> — press <code>⌘ Space</code>, type <code>Terminal</code>, press Return</li>
+      <li><strong>Finder</strong> — Go menu → Utilities → Terminal</li>
+    </ul>`)}
+    ${win(`<ul>
+      <li><strong>Git Bash</strong> — comes with Git (install next slide); use this for all commands in this guide</li>
+      <li><strong>Windows Terminal</strong> — free from Microsoft Store; supports tabs</li>
+    </ul>
+    ${warn('Run all commands in <strong>Git Bash</strong>, not PowerShell or cmd.exe.')}`)}
+    <h3>If using Terminal (Option A): install Node.js <span style="font-size:.75em;font-weight:400;color:var(--text-muted)">— skip if using Desktop App or VS Code</span></h3>
+    ${mac(cb('brew install node   # or download LTS from nodejs.org'))}
+    ${win(`
+      <ol style="padding-left:1.1rem;display:flex;flex-direction:column;gap:.5rem;font-size:.86rem;color:#3a3a3c">
+        <li>Open your browser and go to <strong>nodejs.org</strong></li>
+        <li>Click the large button labeled <strong>"LTS"</strong> — this is the stable recommended version</li>
+        <li>Open the downloaded file and follow the installer — click <strong>Next</strong> on each screen, keep all defaults</li>
+        <li>When the installer finishes, <strong>close Git Bash completely and reopen it</strong> — this is required for Node.js to be recognised</li>
+      </ol>
+    `)}
+    <p>Then install Claude Code. Run this in Terminal (macOS) or Git Bash (Windows):</p>
+    ${cb('npm install -g @anthropic-ai/claude-code\nclaude --version   # verify')}
+    ${tip('Desktop App and VS Code Extension bundle Claude Code internally — no Node.js needed for those.')}
+  `
+},
+
+'s-get-wiki': {
+  tag:'Setup', title:'Get LLM-Wiki', subtitle:'Clone or download the repository. This gives you the vault, global skills, and the clo-author template.',
+  body: () => `
+    <h3>Option A — Clone via Git (recommended)</h3>
+    <p>Run the following in Terminal (macOS) or Git Bash (Windows):</p>
+    ${mac(cb('git clone https://github.com/svwangenheim/llm-wiki ~/LLM-Wiki\ncd ~/LLM-Wiki'))}
+    ${win(cb('git clone https://github.com/svwangenheim/llm-wiki ~/LLM-Wiki\ncd ~/LLM-Wiki'))}
+    <h3>Option B — Download ZIP</h3>
+    <ul>
+      <li>Go to the repository on GitHub → <strong>Code → Download ZIP</strong></li>
+      <li>Extract to your home folder → rename to <code>LLM-Wiki</code></li>
+    </ul>
+    <h3>Verify the structure</h3>
+    ${cb('ls ~/LLM-Wiki\n# Expected: Claude-Agents/  Claude-Skills/  LLM-Wiki/  clo-author-template/  VAULT_PATH.example')}
+    <h3>Install Python + markitdown</h3>
+    <p>markitdown converts PDFs to markdown so Claude can read and ingest them. Install Anaconda first (if you don't have Python): <strong>anaconda.com/download</strong>.</p>
+    ${mac(cb("conda init zsh && source ~/.zshrc\npip install 'markitdown[pdf]'\npython -m markitdown --version   # verify"))}
+    ${win(cb("conda init bash && source ~/.bashrc\npip install 'markitdown[pdf]'\npython -m markitdown --version   # verify"))}
+  `
+},
+
+'s-skills': {
+  tag:'Setup', title:'Install wiki skills globally', subtitle:'Do this once. The skills become available in every Claude Code session on this machine — Terminal, Desktop App, and VS Code.',
+  body: () => `
+    ${info('This step is <strong>relevant for everyone</strong> — regardless of which Claude Code interface you use. The skills and agents live in a shared folder that all interfaces read from.')}
+    <h3>Option A — Terminal / Git Bash <span style="font-size:.75em;font-weight:400;color:var(--text-muted)">(fastest)</span></h3>
+    <p>Run the following in Terminal (macOS) or Git Bash (Windows):</p>
+    ${mac(cb(`mkdir -p ~/.claude/agents ~/.claude/skills
+
+cp ~/LLM-Wiki/Claude-Agents/wiki-librarian.md ~/.claude/agents/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-pull     ~/.claude/skills/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-push     ~/.claude/skills/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-ingest   ~/.claude/skills/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-maintain ~/.claude/skills/`))}
+    ${win(cb(`mkdir -p ~/.claude/agents ~/.claude/skills
+
+cp ~/LLM-Wiki/Claude-Agents/wiki-librarian.md ~/.claude/agents/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-pull     ~/.claude/skills/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-push     ~/.claude/skills/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-ingest   ~/.claude/skills/
+cp -r ~/LLM-Wiki/Claude-Skills/wiki-maintain ~/.claude/skills/`))}
+    <h3>Option B — Manual copy <span style="font-size:.75em;font-weight:400;color:var(--text-muted)">(no terminal needed)</span></h3>
+    <p>The source files are in the shared OneDrive folder. You need to copy them into the hidden <code>.claude</code> folder in your user directory.</p>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num b">1</div><div class="flow-body"><strong>Open the folder where you cloned or extracted the repo in File Explorer</strong> (wherever you saved <code>LLM-Wiki</code>).</div></div>
+      <div class="flow-step"><div class="flow-num b">2</div><div class="flow-body"><strong>Open the destination folder in a second File Explorer window.</strong> In the address bar type: <code>%USERPROFILE%&#92;.claude</code> and press Enter. If the <code>.claude</code> folder does not exist yet, create it.</div></div>
+      <div class="flow-step"><div class="flow-num b">3</div><div class="flow-body"><strong>Inside <code>.claude</code>, create two subfolders</strong> if they don't exist: <code>agents</code> and <code>skills</code>.</div></div>
+      <div class="flow-step"><div class="flow-num b">4</div><div class="flow-body"><strong>Copy the agent:</strong> From the source folder, open <code>Claude-Agents&#92;</code> → copy <code>wiki-librarian.md</code> → paste it into <code>.claude&#92;agents&#92;</code></div></div>
+      <div class="flow-step"><div class="flow-num b">5</div><div class="flow-body"><strong>Copy the skills:</strong> From the source folder, open <code>Claude-Skills&#92;</code> → copy the four folders <code>wiki-pull</code>, <code>wiki-push</code>, <code>wiki-ingest</code>, <code>wiki-maintain</code> → paste them into <code>.claude&#92;skills&#92;</code></div></div>
+    </div>
+    ${tip('On Windows, the <code>.claude</code> folder is hidden by default. In File Explorer, go to View → check <strong>Hidden items</strong> to make it visible. Or just type the path directly in the address bar: <code>%USERPROFILE%&#92;.claude</code>')}
+    <h3>Verify</h3>
+    <p>Run in Terminal / Git Bash, or check in File Explorer:</p>
+    ${cb('ls ~/.claude/agents/\n# Expected: wiki-librarian.md\n\nls ~/.claude/skills/\n# Expected: wiki-ingest  wiki-maintain  wiki-pull  wiki-push')}
+    ${tip('These four skills are now globally available: <code>/wiki-pull</code> (retrieve knowledge), <code>/wiki-push</code> (sync manual edits), <code>/wiki-ingest</code> (add a source), <code>/wiki-maintain</code> (health check).')}
+  `
+},
+
+'s-configure': {
+  tag:'Setup', title:'Configure vault access', subtitle:'Two config steps tell Claude where the vault lives and allow it to call markitdown.',
+  body: () => `
+    <h3>Step A — Create ~/.claude/VAULT_PATH</h3>
+    <p>This file tells wiki-ingest where the vault is. Run the following in Terminal (macOS) or Git Bash (Windows), replacing YOUR_USERNAME with your actual username:</p>
+    ${mac(cb("echo '/Users/YOUR_USERNAME/LLM-Wiki/vault' > ~/.claude/VAULT_PATH\ncat ~/.claude/VAULT_PATH   # verify"))}
+    ${win(cb("echo 'C:/Users/YOUR_USERNAME/LLM-Wiki/vault' > ~/.claude/VAULT_PATH\ncat ~/.claude/VAULT_PATH   # verify\n# Use forward slashes — Git Bash requires this"))}
+    <h3>Step B — Configure ~/.claude/settings.json</h3>
+    <p>This file tells Claude which folders it can access and which Bash commands it is allowed to run. There are two scenarios depending on whether the file already exists:</p>
+    <h3 style="color:var(--accent)">Scenario 1: The file does not exist yet (most common for new installs)</h3>
+    <p>Create the file with the full content shown below. Run the following in Terminal (macOS) or Git Bash (Windows) to open a text editor:</p>
+    ${mac(cb('nano ~/.claude/settings.json   # Ctrl+O to save, Ctrl+X to exit'))}
+    ${win(cb('notepad ~/.claude/settings.json'))}
+    <p>Paste in exactly this content (replace YOUR_USERNAME with your actual username):</p>
+    ${mac(cb(`{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(markitdown *)",
+      "Bash(python -m markitdown *)"
+    ],
+    "additionalDirectories": [
+      "/Users/YOUR_USERNAME/LLM-Wiki/vault"
+    ]
+  }
+}`))}
+    ${win(cb(`{
+  "permissions": {
+    "allow": [
+      "Bash(markitdown *)",
+      "Bash(python -m markitdown *)"
+    ],
+    "additionalDirectories": [
+      "C:/Users/YOUR_USERNAME/LLM-Wiki/vault"
+    ]
+  }
+}`))}
+    <h3 style="color:var(--blue)">Scenario 2: The file already exists</h3>
+    <p>Open the existing file and find the <code>"permissions"</code> block. You need to add two things inside it:</p>
+    <ol style="padding-left:1.1rem;display:flex;flex-direction:column;gap:.4rem;font-size:.86rem;color:#3a3a3c">
+      <li>Add the two <code>allow</code> entries to the existing <code>"allow"</code> array (or create the array if it doesn't exist)</li>
+      <li>Add the <code>"additionalDirectories"</code> key with your vault path (or append to it if it already exists)</li>
+    </ol>
+    <p>For example, if your existing file looks like this:</p>
+    ${cb(`{
+  "permissions": {
+    "allow": [
+      "Bash(git *)"
+    ]
+  }
+}`)}
+    <p>After your edit it should look like this:</p>
+    ${mac(cb(`{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(markitdown *)",
+      "Bash(python -m markitdown *)"
+    ],
+    "additionalDirectories": [
+      "/Users/YOUR_USERNAME/LLM-Wiki/vault"
+    ]
+  }
+}`))}
+    ${win(cb(`{
+  "permissions": {
+    "allow": [
+      "Bash(git *)",
+      "Bash(markitdown *)",
+      "Bash(python -m markitdown *)"
+    ],
+    "additionalDirectories": [
+      "C:/Users/YOUR_USERNAME/LLM-Wiki/vault"
+    ]
+  }
+}`))}
+    ${warn('JSON is sensitive to formatting. Make sure every entry except the last one in an array or object is followed by a comma. If Claude Code shows a settings error on startup, the JSON is likely malformed — paste it into <a href="https://jsonlint.com" target="_blank" style="color:inherit">jsonlint.com</a> to check.')}
+  `
+},
+
+'s-obsidian': {
+  tag:'Setup', title:'Open the vault in Obsidian', subtitle:'Obsidian is the visual frontend for your wiki. It\'s free for personal use — no account required.',
+  body: () => `
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-body">Download Obsidian from <a href="https://obsidian.md" target="_blank" style="color:var(--blue);font-weight:700">obsidian.md</a> — this is the official website (the <code>.md</code> is a country-code domain, not a file extension). Install it like any other application.</div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-body">Launch Obsidian → click <strong>"Open folder as vault"</strong> on the welcome screen (or File → Open vault)</div></div>
+      <div class="flow-step"><div class="flow-num">3</div>
+        <div class="flow-body">Navigate to your vault folder:<br>
+          <span class="mac-only show" style="font-family:'JetBrains Mono',monospace;font-size:.8rem;background:#f0ede8;padding:.1rem .4rem;border-radius:3px">/Users/YOUR_USERNAME/LLM-Wiki/vault</span>
+          <span class="win-only" style="font-family:'JetBrains Mono',monospace;font-size:.8rem;background:#f0ede8;padding:.1rem .4rem;border-radius:3px">C:\\Users\\YOUR_USERNAME\\LLM-Wiki\\vault</span>
+        </div>
+      </div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-body">Click <strong>Open</strong> → click <strong>"Trust vault"</strong> if prompted (all files are plain markdown)</div></div>
+    </div>
+    <h3>What you should see</h3>
+    <p>A file tree with folders: <code>00_inbox</code>, <code>10_sources</code>, <code>20_summaries</code>, <code>30_concepts</code>, <code>40_methods</code>, <code>50_datasets</code>, <code>70_projects</code>, <code>90_synthesis</code>.</p>
+    ${tip('Obsidian is the reading + exploration layer. All actual wiki writes are done by Claude Code — you use Obsidian to browse, search, and navigate the vault.')}
+  `
+},
+
+'s-verify': {
+  tag:'Setup', title:'Verify your setup', subtitle:'Run these checks in order. Fix each failure before moving on.',
+  body: () => `
+    <p style="font-size:.82rem;color:var(--text-muted);margin-bottom:.75rem">📟 <strong>Run all commands below in Terminal (macOS) or Git Bash (Windows).</strong></p>
+    <div class="check-grid">
+      <div class="chk"><div class="cnum">1</div><div class="cbody"><strong>VAULT_PATH file exists</strong>${cb('cat ~/.claude/VAULT_PATH\n# prints your vault path')}</div></div>
+      <div class="chk"><div class="cnum">2</div><div class="cbody"><strong>Vault directory exists</strong>${cb('ls "$(cat ~/.claude/VAULT_PATH)/CLAUDE.md"\n# prints path to vault/CLAUDE.md')}</div></div>
+      <div class="chk"><div class="cnum">3</div><div class="cbody"><strong>Wiki skills installed</strong>${cb('ls ~/.claude/skills/wiki-pull\nls ~/.claude/agents/wiki-librarian.md')}</div></div>
+      <div class="chk"><div class="cnum">4</div><div class="cbody"><strong>markitdown installed</strong>${cb('python -m markitdown --version\n# prints version number')}</div></div>
+    </div>
+    <h3>End-to-end test (all interfaces)</h3>
+    <p>Open Claude Code in any folder (Terminal: <code>claude</code> / Desktop App: open folder / VS Code: open folder) and run:</p>
+    ${cb('/wiki-pull test\n# Expected: Claude reads vault/index.md and reports content or "wiki is empty"')}
+    ${tip('If you see "wiki not available", check that <strong>additionalDirectories</strong> in settings.json points to the correct vault path, then restart Claude Code.')}
+    <div style="margin-top:1.4rem">
+      <p style="font-weight:700;color:var(--accent)">✓ Setup is complete. You will not need to repeat any of this.</p>
+      <p>Continue to learn how to use the wiki — or jump directly to the clo-author section if you already know the wiki.</p>
+    </div>
+  `
+},
+
+/* ───── WIKI ───── */
+'w-structure': {
+  tag:'Wiki', title:'Vault structure', subtitle:'The vault is your permanent knowledge base. Claude maintains it; you add sources and direct the work.',
+  body: () => `
+    ${stop('Wiki-only path','Everything in this section works as a standalone system. You do not need clo-author. Come back to it later — or never.')}
+    <div class="pipe-diagram">vault/
+├── CLAUDE.md               ← wiki rules (Claude reads this automatically)
+├── index.md                ← content catalog — what is in the wiki
+├── log.md                  ← chronological record of all changes
+├── 00_inbox/               ← temporary: unsorted papers and stubs
+├── 10_sources/             ← raw source files (immutable after ingest)
+├── 20_summaries/           ← one structured summary per source
+├── 30_concepts/            ← concept and mechanism pages
+├── 40_methods/             ← identification strategy and method pages
+├── 50_datasets/            ← dataset pages
+├── 60_people_institutions/ ← notable authors, journals, organizations
+├── 70_projects/            ← one page per research project
+└── 90_synthesis/           ← cross-paper synthesis and comparisons</div>
+    <p><strong>The core principle:</strong> <code>10_sources/</code> holds immutable raw files — never edit them. Everything else (summaries, concepts, methods) is maintained by Claude: created, updated, cross-linked, and synthesized over time. You add sources; Claude maintains the knowledge structure.</p>
+    ${tip('You can read and edit any wiki file in Obsidian or any text editor. The files are plain markdown — no lock-in, no proprietary format.')}
+  `
+},
+
+'w-ingest': {
+  tag:'Wiki', title:'Adding sources — /wiki-ingest', subtitle:'The entry point for adding any source to the wiki. Works with PDFs or citation strings.',
+  body: () => `
+    <h3>From a PDF</h3>
+    ${cb('/wiki-ingest path/to/paper.pdf')}
+    <p>Claude converts the PDF to markdown, places it in <code>10_sources/</code>, then runs the full ingest workflow automatically.</p>
+    <h3>From a citation string — creating a stub</h3>
+    ${cb('/wiki-ingest "Acemoglu et al. 2023, The Turing Trap"')}
+    <p>A <strong>stub</strong> is a placeholder entry: Claude creates a minimal page in <code>00_inbox/</code> with the citation details, but without a full summary (since there\'s no file to analyse yet). It\'s useful when you know a paper is relevant but don\'t have the PDF at hand. When you later get the file, run <code>/wiki-ingest path/to/file.pdf</code> — Claude will find the existing stub and complete it into a full summary.</p>
+    <h3>What happens automatically after every ingest</h3>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num b">1</div><div class="flow-body">Creates <code>vault/20_summaries/[author-year]-[title].md</code> — a structured summary with research question, method, findings, limitations, and proximity score</div></div>
+      <div class="flow-step"><div class="flow-num b">2</div><div class="flow-body">Updates or creates pages in <code>30_concepts/</code>, <code>40_methods/</code>, <code>50_datasets/</code> for every topic the paper touches</div></div>
+      <div class="flow-step"><div class="flow-num b">3</div><div class="flow-body">Updates <code>index.md</code> and appends to <code>log.md</code></div></div>
+    </div>
+    ${tip('The files Claude writes are plain markdown — you can read them directly in Obsidian. After an ingest, open the <code>20_summaries/</code> folder to see the structured summary Claude created: research question, method, key findings, limitations. The concept and method pages in <code>30_concepts/</code> and <code>40_methods/</code> are also worth browsing as the wiki grows.')}
+  `
+},
+
+'w-pull': {
+  tag:'Wiki', title:'Querying the wiki — /wiki-pull', subtitle:'Before starting any research task, pull relevant prior knowledge. This is the most important daily habit.',
+  body: () => `
+    ${cb('/wiki-pull [topic or question]')}
+    <p>Claude reads the wiki and returns a structured synthesis:</p>
+    <ul>
+      <li><strong>What we already know</strong> — synthesized from existing notes</li>
+      <li><strong>Most relevant notes</strong> — specific files worth reading</li>
+      <li><strong>Reuse opportunities</strong> — what should directly inform current work</li>
+      <li><strong>Gaps</strong> — what is missing or unclear</li>
+    </ul>
+    <h3>Example</h3>
+    ${cb('/wiki-pull impact of public childcare on maternal labour supply')}
+    <h3>Health check: lint mode</h3>
+    ${cb('/wiki-pull lint')}
+    <p>Runs a full wiki audit: detects stale claims, duplicate pages, orphan pages with weak linking, concepts mentioned often but lacking pages, and contradictions across notes. Run this monthly or after a large batch of ingestions.</p>
+    ${tip('Even if the wiki is sparse, always run <code>/wiki-pull</code> before starting substantial work. It surfaces what exists and tells you exactly what is still missing — that\'s useful information too.')}
+  `
+},
+
+'w-push': {
+  tag:'Wiki', title:'Syncing project knowledge back — /wiki-push', subtitle:'Use after producing durable new insights in a project — not for adding external sources (that\'s /wiki-ingest).',
+  body: () => `
+    <p><code>/wiki-push</code> writes knowledge you <em>created</em> during project work back into the global vault. Where <code>/wiki-ingest</code> handles external sources (papers, PDFs), <code>/wiki-push</code> handles internal knowledge — insights, clarifications, and lessons that emerged from your own research.</p>
+    ${cb('/wiki-push')}
+    <p>Claude inspects the current project and identifies what is worth preserving:</p>
+    <h3>Good candidates for pushing</h3>
+    <ul>
+      <li>Method lessons learned during analysis (e.g. "wild bootstrap is necessary with fewer than 20 clusters")</li>
+      <li>Dataset notes discovered in the data work (coverage gaps, variable quirks, known issues)</li>
+      <li>Conceptual clarifications that emerged from working through the literature</li>
+      <li>Synthesis across sources that produced a new framework or comparison</li>
+      <li>Decisions that future projects may benefit from knowing</li>
+    </ul>
+    <h3>Poor candidates — Claude will skip these</h3>
+    <ul>
+      <li>Scratch notes and temporary logistics</li>
+      <li>Half-formed thoughts not ready for the wiki</li>
+      <li>Project-specific clutter with no broader reuse value</li>
+      <li>Raw copied text without synthesis</li>
+    </ul>
+    <h3>What happens</h3>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num b">1</div><div class="flow-body">Claude identifies durable knowledge from the current session and project files</div></div>
+      <div class="flow-step"><div class="flow-num b">2</div><div class="flow-body">Checks for existing wiki pages to update — prefers updating over creating duplicates</div></div>
+      <div class="flow-step"><div class="flow-num b">3</div><div class="flow-body">Writes or updates pages in the appropriate vault folders (<code>30_concepts/</code>, <code>40_methods/</code>, <code>50_datasets/</code>, <code>90_synthesis/</code>)</div></div>
+      <div class="flow-step"><div class="flow-num b">4</div><div class="flow-body">Updates <code>wiki-links.md</code> in the project with what was pushed and what was left out</div></div>
+    </div>
+    ${tip('<code>/wiki-push</code> and <code>/wiki-ingest</code> work together: ingest handles papers you <em>read</em>; push handles knowledge you <em>create</em>. Use both at the end of every meaningful work block.')}
+  `
+},
+
+'w-maintain': {
+  tag:'Wiki', title:'Keeping the wiki healthy — /wiki-maintain', subtitle:'Run periodically to lint the vault and keep retrieval reliable.',
+  body: () => `
+    ${cb('/wiki-maintain')}
+    <p>This detects and reports:</p>
+    <ul>
+      <li>Stale claims that may need updating</li>
+      <li>Duplicate pages that should be merged</li>
+      <li>Orphan pages with no links from other notes</li>
+      <li>Concepts mentioned frequently but lacking their own page</li>
+      <li>Contradictions across summaries</li>
+    </ul>
+    <p>Claude summarizes findings and fixes them if you instruct it to.</p>
+    <h3>When to run it</h3>
+    <ul>
+      <li>Once a month as routine maintenance</li>
+      <li>After a large batch of ingestions (10+ papers)</li>
+      <li>Before starting a new project in a familiar research area</li>
+    </ul>
+    ${warn('After ~20–30 ingestions, duplicate concept pages and orphan summaries accumulate. A periodic maintain pass keeps the wiki coherent.')}
+    <h3>Manual edits</h3>
+    <p>You can edit any wiki file directly in Obsidian or a text editor. When you do, the file content changes — but the wiki\'s structural metadata does not update automatically. The <code>index.md</code> catalog, the <code>log.md</code> changelog, and cross-links to other notes all stay as they were before your edit.</p>
+    <p>To bring the structure back in sync, run <code>/wiki-push</code> after making manual edits:</p>
+    ${cb('/wiki-push')}
+    <p>Claude re-reads your changes, updates <code>index.md</code> and <code>log.md</code>, repairs broken cross-links, and ensures the edit is reflected in related concept or method pages.</p>
+    ${tip('A direct edit in Obsidian changes one file. <code>/wiki-push</code> propagates that change through the rest of the vault structure.')}
+  `
+},
+
+'w-habit': {
+  tag:'Wiki', title:'The wiki habit', subtitle:'The entire maintenance burden on your side is one command per paper.',
+  body: () => `
+    ${stop('You can stop here','The wiki is a complete, standalone system. If you do not need the clo-author research pipeline, everything below this point is optional. Come back whenever you want the full workflow.')}
+    <h3>The core habit</h3>
+    <p><strong>Every time you read a paper worth keeping: <code>/wiki-ingest</code> it.</strong></p>
+    <p>That is the entire discipline required. The wiki does the rest — and it compounds. After 20 papers, your next project starts with a real knowledge base instead of a blank page.</p>
+    <h3>Wiki command reference</h3>
+    <table class="ref">
+      <tr><th>Command</th><th>When to use</th></tr>
+      <tr><td>/wiki-pull [topic]</td><td>Before starting any research work — loads prior knowledge</td></tr>
+      <tr><td>/wiki-ingest [file]</td><td>After reading any paper worth keeping — adds it to the vault</td></tr>
+      <tr><td>/wiki-ingest "Citation"</td><td>No file yet — creates a stub in 00_inbox/ for later</td></tr>
+      <tr><td>/wiki-pull lint</td><td>Monthly health check — finds gaps, duplicates, orphans</td></tr>
+      <tr><td>/wiki-maintain</td><td>Full lint + fix pass — run after large batches of ingestion</td></tr>
+      <tr><td>/wiki-push</td><td>After manual edits — syncs them back through the vault structure</td></tr>
+    </table>
+    ${tip('Continue to the clo-author section to see how the wiki integrates with a full paper-writing pipeline.')}
+  `
+},
+
+/* ───── CLO-AUTHOR ───── */
+'c-overview': {
+  tag:'clo-author', title:'How clo-author works', subtitle:'A pipeline of specialized agents, each paired with a critic — and backed by the wiki throughout.',
+  body: () => `
+    <h3>The full research pipeline</h3>
+    <div class="pipe-diagram">Stage 1: Discovery
+  /discover interview  →  research spec + domain profile
+  /discover lit        →  annotated bibliography (Librarian + Librarian-Critic)
+  /discover data       →  dataset assessment (Explorer + Explorer-Critic)
+
+Stage 2: Strategy
+  /strategize          →  identification strategy memo (Strategist + Strategist-Critic)
+
+Stage 3: Execution
+  /analyze             →  scripts + tables + figures (Coder + Coder-Critic)
+  /write               →  paper sections (Writer + Writer-Critic)
+
+Stage 4: Review
+  /review --peer       →  simulated peer review (Domain-Referee + Methods-Referee)
+  /revise              →  R&amp;R response routing
+
+Stage 5: Submission
+  /submit              →  final gate (score ≥ 95/100)</div>
+    <h3>Run the full pipeline in one command</h3>
+    ${cb('/new-project [topic]\n# Runs all five stages in sequence.\n# Pauses at each stage transition for your approval before continuing.')}
+    <p>Or enter at any stage manually — use individual commands if you want more control over each phase.</p>
+    <h3>The worker-critic model</h3>
+    <p>Every producing agent has a dedicated critic agent that reviews its output before it reaches you:</p>
+    <table class="ref">
+      <tr><th>Worker</th><th>Critic</th><th>Reviews</th></tr>
+      <tr><td>Librarian</td><td>Librarian-Critic</td><td>Coverage, proximity scores, missed key papers</td></tr>
+      <tr><td>Explorer</td><td>Explorer-Critic</td><td>Dataset feasibility grades, measurement validity</td></tr>
+      <tr><td>Strategist</td><td>Strategist-Critic</td><td>Identification assumptions, robustness plan</td></tr>
+      <tr><td>Coder</td><td>Coder-Critic</td><td>Code quality, output correctness, reproducibility</td></tr>
+      <tr><td>Writer</td><td>Writer-Critic</td><td>Argument structure, claim-source links, AI patterns</td></tr>
+      <tr><td>Domain-Referee</td><td>Methods-Referee</td><td>Peer review — two independent blind reviewers</td></tr>
+    </table>
+    ${info('Critics <strong>never edit files</strong>. They only review and score. If worker and critic can\'t agree after 3 iterations, the disagreement escalates to you for a decision.')}
+    <h3>Quality gates</h3>
+    <p>Scores are weighted aggregates across all components. The system enforces three thresholds automatically:</p>
+    <ul>
+      <li><strong>≥ 80/100</strong> — Commit allowed</li>
+      <li><strong>≥ 90/100</strong> — PR/merge allowed</li>
+      <li><strong>≥ 95/100 + all components ≥ 80</strong> — Journal submission allowed</li>
+    </ul>
+    ${wiki('The wiki is active throughout the pipeline. The Librarian checks the vault before searching the web. The Coder and Writer load prior methodology notes. The checkpoint saves session progress to the vault project page.')}
+  `
+},
+
+'c-setup': {
+  tag:'clo-author', title:'Setting up a project', subtitle:'Copy the template once per paper. Each project is self-contained but connected to the shared wiki.',
+  body: () => `
+    ${wiki('The wiki must be configured (Setup section) before clo-author can use it. You can run clo-author without the wiki configured — the pipeline still works, but sessions will not persist to the vault.')}
+    <h3>Step 1 — Copy the template</h3>
+    <p><strong>Option A: Terminal / Git Bash</strong></p>
+    <p>Run in Terminal (macOS) or Git Bash (Windows), replacing <code>my-paper-name</code> with your project name:</p>
+    ${mac(cb('cp -r ~/LLM-Wiki/clo-author-template ~/projects/my-paper-name\ncd ~/projects/my-paper-name'))}
+    ${win(cb('cp -r ~/LLM-Wiki/clo-author-template ~/projects/my-paper-name\ncd ~/projects/my-paper-name'))}
+    <p><strong>Option B: Manual copy in File Explorer</strong></p>
+    <div class="flow-steps" style="margin-bottom:.75rem">
+      <div class="flow-step"><div class="flow-num p">1</div><div class="flow-body">Open File Explorer and navigate to the folder where you cloned or extracted the repo (wherever you saved <code>LLM-Wiki</code>).</div></div>
+      <div class="flow-step"><div class="flow-num p">2</div><div class="flow-body">Right-click the <code>clo-author-template</code> folder → <strong>Copy</strong></div></div>
+      <div class="flow-step"><div class="flow-num p">3</div><div class="flow-body">Navigate to the folder where you keep your projects → <strong>Paste</strong></div></div>
+      <div class="flow-step"><div class="flow-num p">4</div><div class="flow-body">Right-click the pasted folder → <strong>Rename</strong> → give it your project name (e.g. <code>zim-subsidies-innovation</code>)</div></div>
+    </div>
+    <h3>Step 2 — Open in Claude Code</h3>
+    <ul>
+      <li><strong>Terminal:</strong> <code>claude</code> in the project folder</li>
+      <li><strong>Desktop App:</strong> Open Folder → select the project folder</li>
+      <li><strong>VS Code:</strong> File → Open Folder → select the project folder → open the Claude panel</li>
+    </ul>
+    <h3>Step 3 — Fill in CLAUDE.md</h3>
+    <p>Replace the three bracketed placeholders at the top:</p>
+    ${cb('**Project:** Effect of ZIM Subsidies on SME Innovation\n**Institution:** [Your Institution]\n**Field:** Innovation Economics / Public Finance')}
+    <p>This takes two minutes and configures how every agent in the pipeline behaves — field conventions, target journals, identification strategies to prioritize.</p>
+    <h3>Step 4 — Run the wiki pull for your topic</h3>
+    ${cb('/wiki-pull [your research topic]')}
+    <p>Even if the wiki is sparse, this surfaces what already exists and connects the project to the right wiki pages. The pull result informs the domain profile and speeds up the literature search.</p>
+  `
+},
+
+'c-rhythm': {
+  tag:'clo-author', title:'The session rhythm', subtitle:'Every working session follows the same four-step loop.',
+  body: () => `
+    <div class="pipe-diagram">1. /wiki-pull        → what do we already know?
+2. Research work     → discover, strategize, analyze, write
+3. /wiki-ingest      → add new papers found this session
+4. /checkpoint       → save everything before closing</div>
+    <p>This rhythm is the integration layer between the wiki and clo-author. The pull brings prior knowledge into the session; the ingest and checkpoint push new knowledge back. Sessions compound: each one builds on the last.</p>
+    <div class="cols c2">
+      <div class="card">
+        <h3 style="color:var(--accent)">Start of session</h3>
+        <p>Run <code>/wiki-pull [topic]</code> before any substantial work. Claude retrieves relevant summaries, concepts, methods, and related project notes from the vault.</p>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--purple)">End of session</h3>
+        <p>Ingest new papers found. Then run <code>/checkpoint</code> — saves progress to memory, session log, research journal, and the vault project page.</p>
+      </div>
+    </div>
+    <h3>The wiki bridge file</h3>
+    <p>Each project has a <code>wiki-links.md</code> file at its root. It records which wiki pages are relevant to this project, what has been pulled and pushed, and what still needs to be synced. The wiki-librarian agent keeps it updated automatically.</p>
+    ${tip('Think of <code>/checkpoint</code> as pressing Save. Without it, Claude starts each new session with no memory of the previous one. With it, sessions compound.')}
+  `
+},
+
+'c-discover': {
+  tag:'clo-author', title:'Discovery phase', subtitle:'Three modes — choose based on what you need.',
+  body: () => `
+    <h3>Start with an interview</h3>
+    ${cb('/discover interview [topic]')}
+    <p>Claude asks 6–8 structured questions about your research idea and produces: a research specification, a domain profile (target journals, common datasets, field conventions), and a decision record. Recommended starting point for any new project.</p>
+    <h3>Don\'t have a research question yet?</h3>
+    ${cb('/discover ideate [broad area]\n# Generates 3-5 candidate research questions. Pick one, then run the interview.')}
+    <h3>Literature search</h3>
+    ${cb('/discover lit [topic]')}
+    <p>The librarian searches and synthesizes academic literature. Crucially, it checks the wiki first:</p>
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num p">1</div><div class="flow-body">Reads your domain profile for field journals and seminal references</div></div>
+      <div class="flow-step"><div class="flow-num p">2</div><div class="flow-body"><strong>Checks <code>vault/10_sources/</code> and <code>master_supporting_docs/</code> as a unified corpus</strong> — papers already in the vault don\'t need to be copied anywhere</div></div>
+      <div class="flow-step"><div class="flow-num p">3</div><div class="flow-body"><strong>Checks <code>vault/20_summaries/</code> for already-ingested papers</strong> — uses them as a head start, skipping redundant searches</div></div>
+      <div class="flow-step"><div class="flow-num p">4</div><div class="flow-body">Searches the web, assigns proximity scores (1 = direct competitor, 5 = background), produces an annotated bibliography</div></div>
+    </div>
+    ${wiki('At the end of the literature search, Claude lists new papers that are not yet in the vault. Download the PDFs of these papers and place them in the <code>vault/10_sources/</code> folder (or the inbox folder <code>vault/00_inbox/</code>). Then run <code>/wiki-ingest</code> on each one before closing the session — papers found but not ingested are lost to future projects.')}
+    <h3>Data discovery</h3>
+    ${cb('/discover data [requirements]\n# Searches public microdata, admin data, surveys. Each dataset gets a feasibility grade A-D.')}
+  `
+},
+
+'c-execute': {
+  tag:'clo-author', title:'Strategy, analysis, and writing', subtitle:'The execution phase turns a research design into a finished manuscript.',
+  body: () => `
+    <h3>Identification strategy</h3>
+    ${cb('/strategize\n# Designs identification strategy + produces strategy memo, reviewed by strategist-critic\n\n/strategize theory\n# For papers with formal theory — lemmas, theorems, proofs')}
+    <h3>Data analysis</h3>
+    ${cb('/analyze [dataset]\n# Translates strategy memo into scripts → runs estimation → produces tables and figures')}
+    <h3>Writing</h3>
+    ${cb('/write intro         # Start here\n/write strategy     # Empirical strategy section\n/write results      # After /analyze has produced output\n/write conclusion\n/write abstract     # Draft last')}
+    <p>The writer loads your domain profile and field conventions automatically. It drafts using paragraph-level argument moves, then strips AI writing patterns in a cleanup pass.</p>
+    ${warn('<strong>Results and conclusion sections check for existing output files</strong> in <code>paper/tables/</code> and <code>paper/figures/</code> before drafting. Run <code>/analyze</code> first — this prevents fabricated results.')}
+    <h3>Extract your writing voice (once, not per project)</h3>
+    <p>This command analyses a set of papers and produces a style profile — sentence patterns, paragraph structures, citation conventions — that the writer uses on every subsequent <code>/write</code> call.</p>
+    ${warn('<strong>Only point this at papers written in the style you want to replicate</strong> — your own prior papers, or a specific author whose style you are intentionally matching. Do <em>not</em> point it at <code>vault/10_sources/</code>: those are papers you have read for research, not papers written in your own voice.')}
+    <p>Place the relevant papers in a dedicated subfolder inside <code>master_supporting_docs/</code>:</p>
+    ${cb('master_supporting_docs/writing_style/\n  my_paper_2022.pdf\n  my_paper_2024.pdf')}
+    <p>Then run:</p>
+    ${cb('/write style-guide master_supporting_docs/writing_style/')}
+    <p>Run this once. The resulting style profile is saved and loaded automatically on every future <code>/write</code> call.</p>
+  `
+},
+
+'c-review': {
+  tag:'clo-author', title:'Peer review and revision', subtitle:'Simulate journal submission before sending to real referees.',
+  body: () => `
+    <h3>Simulated peer review</h3>
+    ${cb('/review --peer [journal]\n# e.g. /review --peer JHR')}
+    <p>Two blind referees with distinct intellectual dispositions (Structuralist, Credibility, Measurement, Policy, Theory, Skeptic) review independently. Each produces a scored report with classified concerns:</p>
+    <ul>
+      <li><strong>FATAL</strong> — must address or the paper cannot be submitted</li>
+      <li><strong>ADDRESSABLE</strong> — should address before submission</li>
+      <li><strong>TASTE</strong> — referee preference, your call</li>
+    </ul>
+    ${cb('/review --stress\n# Adversarial referees for pre-submission stress testing')}
+    <h3>Responding to real referee reports</h3>
+    ${cb('/revise [referee-report.md]\n# Classifies each comment and routes it to the right agent:\n# NEW ANALYSIS → coder | CLARIFICATION → writer | DISAGREE → you (mandatory)')}
+    <h3>Quality gates</h3>
+    <table class="ref">
+      <tr><th>Score</th><th>Gate</th><th>Meaning</th></tr>
+      <tr><td>≥ 80/100</td><td>Commit</td><td>Work can be committed to git</td></tr>
+      <tr><td>≥ 90/100</td><td>PR</td><td>Work can be merged</td></tr>
+      <tr><td>≥ 95/100 + all components ≥ 80</td><td>Submit</td><td>Final gate for journal submission</td></tr>
+    </table>
+    <h3>Final submission package</h3>
+    ${cb('/submit\n# Runs 10-check audit on the replication package. Requires aggregate score ≥ 95.')}
+  `
+},
+
+'c-checkpoint': {
+  tag:'clo-author', title:'Ending a session — /checkpoint', subtitle:'Run before closing Claude Code. This is what makes sessions compound.',
+  body: () => `
+    ${cb('/checkpoint')}
+    <p>Claude gathers what happened and saves to multiple destinations:</p>
+    <table class="ref">
+      <tr><th>Destination</th><th>What gets saved</th></tr>
+      <tr><td>Claude Code memory</td><td>Corrections and preferences for future sessions</td></tr>
+      <tr><td>SESSION_REPORT.md</td><td>Append-only session log in the project folder</td></tr>
+      <tr><td>research_journal.md</td><td>Agent invocation trail (which skills ran, scores, outcomes)</td></tr>
+      <tr><td>vault/70_projects/[slug].md</td><td>Session journal entry written directly to the wiki — only if VAULT_PATH is configured</td></tr>
+    </table>
+    ${wiki('The vault project page (<code>vault/70_projects/[project-name].md</code>) is created automatically on first checkpoint. It records what was done and what comes next. The next session reads it as the first step in session recovery — faster and more reliable than reconstructing from memory.')}
+    ${tip('The whole checkpoint takes under 60 seconds. Claude presents a draft summary for your confirmation before saving anything.')}
+    <h3>Useful flags</h3>
+    ${cb('/checkpoint --auto          # skip confirmation, just save\n/checkpoint --dry-run       # show what would be saved without saving\n/checkpoint --memory-only   # only update Claude Code memory')}
+    <h3>Session recovery (next session)</h3>
+    <p>At the start of a new session, run:</p>
+    ${cb('/wiki-pull [topic]\n# Claude reads vault/70_projects/[slug].md and prior notes automatically')}
+  `
+},
+
+'c-close': {
+  tag:'clo-author', title:'Closing the loop after a project', subtitle:'When a paper is done (accepted, submitted, or at a stable draft), give the knowledge back to the wiki.',
+  body: () => `
+    <div class="flow-steps">
+      <div class="flow-step"><div class="flow-num p">1</div><div class="flow-body"><strong>Ingest your finished paper</strong><br>${cb('/wiki-ingest paper/main.tex\n# Your own paper becomes part of the global corpus.')}</div></div>
+      <div class="flow-step"><div class="flow-num p">2</div><div class="flow-body"><strong>Update synthesis pages</strong><br>Run <code>/wiki-maintain</code> and ask Claude to update <code>vault/90_synthesis/</code> pages that your findings affect. If your results challenge or confirm prior synthesis, make that tension explicit.</div></div>
+      <div class="flow-step"><div class="flow-num p">3</div><div class="flow-body"><strong>Update the project page</strong><br>Open <code>vault/70_projects/[project-name].md</code> and add a final entry: key finding, what changed the picture, what still needs further research.</div></div>
+    </div>
+    ${wiki('The next project that touches related territory starts with your own findings already in the wiki — proximity-scored, linked to concepts and methods, and ready to inform the next research question.')}
+    <h3>Full command reference</h3>
+    <table class="ref">
+      <tr><th>Command</th><th>What it does</th></tr>
+      <tr><td>/wiki-pull [topic]</td><td>Read prior knowledge before starting work</td></tr>
+      <tr><td>/wiki-ingest [file]</td><td>Add a source to the wiki</td></tr>
+      <tr><td>/wiki-maintain</td><td>Health check: duplicates, orphans, stale claims</td></tr>
+      <tr><td>/discover interview</td><td>Research interview → spec + domain profile</td></tr>
+      <tr><td>/discover lit [topic]</td><td>Literature search using wiki as corpus</td></tr>
+      <tr><td>/discover data [req]</td><td>Dataset discovery + feasibility grades A–D</td></tr>
+      <tr><td>/discover ideate [area]</td><td>Generate candidate research questions</td></tr>
+      <tr><td>/strategize</td><td>Identification strategy with critic review</td></tr>
+      <tr><td>/analyze [dataset]</td><td>Data wrangling + estimation → tables + figures</td></tr>
+      <tr><td>/write [section]</td><td>Draft paper sections in your voice</td></tr>
+      <tr><td>/write style-guide</td><td>Extract writing voice from prior papers</td></tr>
+      <tr><td>/review --peer [journal]</td><td>Simulated peer review (30+ journal profiles)</td></tr>
+      <tr><td>/revise [report]</td><td>R&R: classify and route each referee comment</td></tr>
+      <tr><td>/checkpoint</td><td>Save session to memory + wiki + logs</td></tr>
+      <tr><td>/submit</td><td>Final gate: aggregate score ≥ 95/100</td></tr>
+    </table>
+  `
+}
+
+};
+
+// ── STATE ──────────────────────────────────────────────────────────────────
+let state = {
+  section: 'setup',
+  stepIdx: 0,
+  os: localStorage.getItem('pref-os') || 'mac',
+  completed: new Set(JSON.parse(localStorage.getItem('g-completed') || '[]'))
+};
+
+function startGuide(section, idx) {
+  state.section = section;
+  state.stepIdx = idx;
+  document.getElementById('landing').classList.add('hidden');
+  const g = document.getElementById('guide');
+  g.classList.add('visible');
+  setOS(state.os);
+  render();
+}
+
+function backToLanding() {
+  document.getElementById('landing').classList.remove('hidden');
+  document.getElementById('guide').classList.remove('visible');
+}
+
+function switchSection(section) {
+  state.section = section;
+  state.stepIdx = 0;
+  render();
+}
+
+function setOS(os) {
+  state.os = os;
+  localStorage.setItem('pref-os', os);
+  document.getElementById('os-mac').classList.toggle('active', os === 'mac');
+  document.getElementById('os-win').classList.toggle('active', os === 'win');
+  document.querySelectorAll('.mac-only').forEach(el => el.classList.toggle('show', os === 'mac'));
+  document.querySelectorAll('.win-only').forEach(el => el.classList.toggle('show', os === 'win'));
+}
+
+function render() {
+  const sec = SECTIONS[state.section];
+  const steps = sec.steps;
+  const stepId = steps[state.stepIdx];
+  const stepDef = STEPS[stepId];
+  const color = sec.color;
+  const total = steps.length;
+  const isBlue = color === 'blue';
+  const isPurple = color === 'purple';
+
+  // Sidebar tabs
+  ['setup','wiki','clo'].forEach(s => {
+    const btn = document.getElementById('tab-' + s);
+    btn.classList.toggle('active', s === state.section);
+  });
+
+  // Sidebar steps
+  const sb = document.getElementById('sb-steps');
+  sb.innerHTML = steps.map((sid, i) => {
+    const done = state.completed.has(state.section + ':' + i);
+    const active = i === state.stepIdx;
+    const cls = [done ? 'done' : '', active ? 'active' : '', isBlue ? 'blue' : '', isPurple ? 'purple' : ''].filter(Boolean).join(' ');
+    const num = done ? '✓' : (i + 1);
+    return `<div class="sb-step ${cls}" onclick="jumpTo(${i})"><div class="step-num">${num}</div><div class="step-label">${STEPS[sid].title}</div></div>`;
+  }).join('');
+
+  // Counter
+  document.getElementById('step-counter').textContent = `${sec.label} · Step ${state.stepIdx + 1} of ${total}`;
+
+  // Tag
+  const tag = document.getElementById('step-tag');
+  tag.textContent = stepDef.tag;
+  tag.className = 'step-tag' + (isBlue ? ' blue' : isPurple ? ' purple' : '');
+
+  // Content
+  document.getElementById('step-title').textContent = stepDef.title;
+  document.getElementById('step-subtitle').textContent = stepDef.subtitle;
+  document.getElementById('step-body').innerHTML = stepDef.body();
+
+  // Re-apply OS
+  setOS(state.os);
+
+  // Nav
+  const isLast = state.stepIdx === total - 1;
+  document.getElementById('btn-back').style.visibility = state.stepIdx === 0 ? 'hidden' : 'visible';
+  const nextBtn = document.getElementById('btn-next');
+  if (isLast) {
+    const nextSec = state.section === 'setup' ? 'wiki' : state.section === 'wiki' ? 'clo' : null;
+    if (nextSec) {
+      const labels = {wiki:'Continue to Wiki →', clo:'Continue to clo-author →'};
+      nextBtn.textContent = labels[nextSec];
+      nextBtn.className = 'nav-btn next' + (nextSec === 'wiki' ? ' blue' : ' purple');
+      nextBtn.onclick = () => { markDone(); switchSection(nextSec); };
+    } else {
+      nextBtn.textContent = '✓ Done';
+      nextBtn.className = 'nav-btn next green';
+      nextBtn.onclick = () => { markDone(); };
+    }
+  } else {
+    nextBtn.textContent = 'Next →';
+    nextBtn.className = 'nav-btn next';
+    nextBtn.onclick = goNext;
+  }
+
+  document.querySelector('.main-content').scrollTop = 0;
+}
+
+function markDone() {
+  state.completed.add(state.section + ':' + state.stepIdx);
+  localStorage.setItem('g-completed', JSON.stringify([...state.completed]));
+}
+
+function goNext() {
+  markDone();
+  state.stepIdx++;
+  render();
+}
+
+function goBack() {
+  if (state.stepIdx > 0) { state.stepIdx--; render(); }
+}
+
+function jumpTo(i) {
+  state.stepIdx = i;
+  render();
+}
+
+function copyCode(btn) {
+  const code = btn.nextElementSibling.querySelector('code').textContent;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied!';
+    btn.style.color = '#16c784';
+    setTimeout(() => { btn.textContent = 'Copy'; btn.style.color = ''; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
