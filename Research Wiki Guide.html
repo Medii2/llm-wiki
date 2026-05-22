@@ -386,6 +386,20 @@ LLM-Wiki (vault)  ←  enriched by  ←  clo-author project</div>
     <p>Run these in Terminal (macOS) or Git Bash (Windows):</p>
     ${cb('python --version\n# Expected: Python 3.11.x or higher\n\npip --version\n# Expected: pip 24.x.x')}
     ${tip('All Python commands in this guide run inside the conda <strong>base</strong> environment, which is active by default. You don\'t need to create a separate environment.')}
+    ${win(`
+      <h3>Windows: <code>conda</code> works, but <code>python</code> points to the Microsoft Store?</h3>
+      <p>If <code>conda --version</code> succeeds and <code>pip --version</code> shows Anaconda's pip, but <code>python --version</code> returns <em>"Python was not found; run without arguments to install from the Microsoft Store…"</em> — you are hitting a Windows App Execution Alias conflict. Windows registers a system-wide alias for <code>python.exe</code> that redirects to the Store. Because Anaconda's installer does not add itself to the system PATH by default, the bare <code>python</code> command has nothing to resolve to, so Windows fills the gap with the Store alias. <code>pip</code> is unaffected because there is no Store alias for it.</p>
+      <p><strong>Fix 1 — Disable the Windows alias (recommended, ~30 seconds):</strong></p>
+      <div class="flow-steps">
+        <div class="flow-step"><div class="flow-num b">1</div><div class="flow-body">Open <strong>Settings</strong> → <strong>Apps</strong> → <strong>Advanced App Settings</strong> → <strong>App Execution Aliases</strong></div></div>
+        <div class="flow-step"><div class="flow-num b">2</div><div class="flow-body">Find the entries for <strong>python.exe</strong> and <strong>python3.exe</strong> and turn both toggles <strong>Off</strong></div></div>
+        <div class="flow-step"><div class="flow-num b">3</div><div class="flow-body">Open a <strong>new</strong> Git Bash window — the old one won't pick up the change. Run <code>python --version</code>; it should now resolve to Anaconda's Python.</div></div>
+      </div>
+      <p><strong>Fix 2 — Always activate conda before running Python (no settings change needed):</strong></p>
+      <p>If you prefer not to touch system settings, activate the conda base environment explicitly before calling Python. Use <strong>Anaconda Prompt</strong> instead of Git Bash, or run this in Git Bash first:</p>
+      ${cb('conda activate base\npython --version   # now resolves to Anaconda\'s Python')}
+      ${tip('Fix 1 is the cleaner solution and has no downsides — it only removes the Store redirect; it does not uninstall anything. Fix 2 works too, but you must remember to activate conda in every new terminal session.')}
+    `)}
   `
 },
 
