@@ -102,6 +102,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 .callout.stop{background:#f0fdf8;border:2px solid var(--accent);color:#0d1117;text-align:center;padding:1.1rem 1.4rem}
 .callout.stop h3{font-size:.95rem;margin:0 0 .4rem;color:#0d1117;font-weight:700;text-transform:none;letter-spacing:0}
 .callout.stop p{color:#374151;font-size:.85rem;margin:0}
+.gb-paste{background:#eef6ff;border:1px solid #93c5fd;color:#1e40af;border-radius:7px;font-size:.8rem;line-height:1.5;padding:.5rem .8rem;margin:.35rem 0 .85rem}
+.gb-paste code{background:#dbeafe;color:#1e3a8a}
 .os-section{display:none}
 .os-section.show{display:block}
 ic{color:var(--accent);font-style:normal}
@@ -199,7 +201,7 @@ table.ref td:last-child{color:#5a5a5a}
     </div>
     <div class="sb-steps" id="sb-steps"></div>
     <div class="sb-footer">
-      <a href="https://github.com/svwangenheim/llm-wiki" target="_blank">↗ GitHub repository</a>
+      <a href="LLM-Wiki Guide.html" target="_blank">↗ Setup slide deck</a>
       <a href="#" onclick="backToLanding()">↺ Change path</a>
     </div>
   </aside>
@@ -236,6 +238,9 @@ const stop = (h,t) => `<div class="callout stop"><h3>${h}</h3><p>${t}</p></div>`
 const mac = html => `<div class="os-section mac-only">${html}</div>`;
 const win = html => `<div class="os-section win-only">${html}</div>`;
 const ic = s => `<ic>${s}</ic>`;
+// Git Bash paste reminders — detailed on first use, short thereafter (Windows only)
+const gbpaste = `<div class="gb-paste">📋 <strong>Pasting into Git Bash:</strong> the usual <code>Ctrl+V</code> shortcut does <strong>not</strong> work in Git Bash. After copying a command, <strong>right-click anywhere in the black window and choose Paste</strong> (or press <code>Shift+Insert</code>). This applies to every command you copy from this guide into Git Bash.</div>`;
+const gbpasteShort = `<div class="gb-paste">📋 Remember: <strong>right-click → Paste</strong> to insert into Git Bash — <code>Ctrl+V</code> won't work.</div>`;
 
 const SECTIONS = {
   setup: {
@@ -338,6 +343,7 @@ LLM-Wiki (vault)  ←  enriched by  ←  clo-author project</div>
     </ul>
     <h3>Already have Anaconda installed but it's not working in the terminal?</h3>
     <p>This usually means Anaconda was installed without being added to your system PATH — so the terminal can't find it. Here's how to fix it without reinstalling:</p>
+    ${win(gbpaste)}
     ${mac(`
       <p>Open Terminal and check:</p>
       ${cb('conda --version\n# If you see a version number → you are fine, skip to Verify below')}
@@ -453,14 +459,14 @@ LLM-Wiki (vault)  ←  enriched by  ←  clo-author project</div>
     <h3>Option A — Clone via Git (recommended)</h3>
     <p>Run the following in Terminal (macOS) or Git Bash (Windows):</p>
     ${mac(cb('git clone https://github.com/svwangenheim/llm-wiki ~/LLM-Wiki\ncd ~/LLM-Wiki'))}
-    ${win(cb('git clone https://github.com/svwangenheim/llm-wiki ~/LLM-Wiki\ncd ~/LLM-Wiki'))}
+    ${win(gbpasteShort + cb('git clone https://github.com/svwangenheim/llm-wiki ~/LLM-Wiki\ncd ~/LLM-Wiki'))}
     <h3>Option B — Download ZIP</h3>
     <ul>
       <li>Go to the repository on GitHub → <strong>Code → Download ZIP</strong></li>
       <li>Extract to your home folder → rename to <code>LLM-Wiki</code></li>
     </ul>
     <h3>Verify the structure</h3>
-    ${cb('ls ~/LLM-Wiki\n# Expected: Claude-Agents/  Claude-Skills/  LLM-Wiki/  clo-author-template/  VAULT_PATH.example')}
+    ${cb('ls ~/LLM-Wiki\n# Expected: claude-global/  clo-author-template/  docs/  vault/')}
     <h3>Install Python + markitdown</h3>
     <p>markitdown converts PDFs to markdown so Claude can read and ingest them. Install Anaconda first (if you don't have Python): <strong>anaconda.com/download</strong>.</p>
     ${mac(cb("conda init zsh && source ~/.zshrc\npip install 'markitdown[pdf]'\npython -m markitdown --version   # verify"))}
@@ -481,7 +487,7 @@ cp -r ~/LLM-Wiki/Claude-Skills/wiki-pull     ~/.claude/skills/
 cp -r ~/LLM-Wiki/Claude-Skills/wiki-push     ~/.claude/skills/
 cp -r ~/LLM-Wiki/Claude-Skills/wiki-ingest   ~/.claude/skills/
 cp -r ~/LLM-Wiki/Claude-Skills/wiki-maintain ~/.claude/skills/`))}
-    ${win(cb(`mkdir -p ~/.claude/agents ~/.claude/skills
+    ${win(gbpasteShort + cb(`mkdir -p ~/.claude/agents ~/.claude/skills
 
 cp ~/LLM-Wiki/Claude-Agents/wiki-librarian.md ~/.claude/agents/
 cp -r ~/LLM-Wiki/Claude-Skills/wiki-pull     ~/.claude/skills/
@@ -491,7 +497,7 @@ cp -r ~/LLM-Wiki/Claude-Skills/wiki-maintain ~/.claude/skills/`))}
     <h3>Option B — Manual copy <span style="font-size:.75em;font-weight:400;color:var(--text-muted)">(no terminal needed)</span></h3>
     <p>The source files are in the shared OneDrive folder. You need to copy them into the hidden <code>.claude</code> folder in your user directory.</p>
     <div class="flow-steps">
-      <div class="flow-step"><div class="flow-num b">1</div><div class="flow-body"><strong>Open the folder where you cloned or extracted the repo in File Explorer</strong> (wherever you saved <code>LLM-Wiki</code>).</div></div>
+      <div class="flow-step"><div class="flow-num b">1</div><div class="flow-body"><strong>Open the source folder in File Explorer:</strong><br><code style="font-size:.75rem">C:&#92;Users&#92;dzsve&#92;OneDrive - Dezernat Zukunft e.V&#92;DZ-Schalte - Dokumente&#92;2_Projekte&#92;Z_Anderes&#92;LLM-Wiki-Beispiel</code></div></div>
       <div class="flow-step"><div class="flow-num b">2</div><div class="flow-body"><strong>Open the destination folder in a second File Explorer window.</strong> In the address bar type: <code>%USERPROFILE%&#92;.claude</code> and press Enter. If the <code>.claude</code> folder does not exist yet, create it.</div></div>
       <div class="flow-step"><div class="flow-num b">3</div><div class="flow-body"><strong>Inside <code>.claude</code>, create two subfolders</strong> if they don't exist: <code>agents</code> and <code>skills</code>.</div></div>
       <div class="flow-step"><div class="flow-num b">4</div><div class="flow-body"><strong>Copy the agent:</strong> From the source folder, open <code>Claude-Agents&#92;</code> → copy <code>wiki-librarian.md</code> → paste it into <code>.claude&#92;agents&#92;</code></div></div>
@@ -511,7 +517,7 @@ cp -r ~/LLM-Wiki/Claude-Skills/wiki-maintain ~/.claude/skills/`))}
     <h3>Step A — Create ~/.claude/VAULT_PATH</h3>
     <p>This file tells wiki-ingest where the vault is. Run the following in Terminal (macOS) or Git Bash (Windows), replacing YOUR_USERNAME with your actual username:</p>
     ${mac(cb("echo '/Users/YOUR_USERNAME/LLM-Wiki/vault' > ~/.claude/VAULT_PATH\ncat ~/.claude/VAULT_PATH   # verify"))}
-    ${win(cb("echo 'C:/Users/YOUR_USERNAME/LLM-Wiki/vault' > ~/.claude/VAULT_PATH\ncat ~/.claude/VAULT_PATH   # verify\n# Use forward slashes — Git Bash requires this"))}
+    ${win(gbpasteShort + cb("echo 'C:/Users/YOUR_USERNAME/LLM-Wiki/vault' > ~/.claude/VAULT_PATH\ncat ~/.claude/VAULT_PATH   # verify\n# Use forward slashes — Git Bash requires this"))}
     <h3>Step B — Configure ~/.claude/settings.json</h3>
     <p>This file tells Claude which folders it can access and which Bash commands it is allowed to run. There are two scenarios depending on whether the file already exists:</p>
     <h3 style="color:var(--accent)">Scenario 1: The file does not exist yet (most common for new installs)</h3>
@@ -830,7 +836,7 @@ Stage 5: Submission
     ${win(cb('cp -r ~/LLM-Wiki/clo-author-template ~/projects/my-paper-name\ncd ~/projects/my-paper-name'))}
     <p><strong>Option B: Manual copy in File Explorer</strong></p>
     <div class="flow-steps" style="margin-bottom:.75rem">
-      <div class="flow-step"><div class="flow-num p">1</div><div class="flow-body">Open File Explorer and navigate to the folder where you cloned or extracted the repo (wherever you saved <code>LLM-Wiki</code>).</div></div>
+      <div class="flow-step"><div class="flow-num p">1</div><div class="flow-body">Open File Explorer and navigate to:<br><code style="font-size:.75rem">C:&#92;Users&#92;dzsve&#92;OneDrive - Dezernat Zukunft e.V&#92;DZ-Schalte - Dokumente&#92;2_Projekte&#92;Z_Anderes&#92;LLM-Wiki-Beispiel</code></div></div>
       <div class="flow-step"><div class="flow-num p">2</div><div class="flow-body">Right-click the <code>clo-author-template</code> folder → <strong>Copy</strong></div></div>
       <div class="flow-step"><div class="flow-num p">3</div><div class="flow-body">Navigate to the folder where you keep your projects → <strong>Paste</strong></div></div>
       <div class="flow-step"><div class="flow-num p">4</div><div class="flow-body">Right-click the pasted folder → <strong>Rename</strong> → give it your project name (e.g. <code>zim-subsidies-innovation</code>)</div></div>
@@ -843,7 +849,7 @@ Stage 5: Submission
     </ul>
     <h3>Step 3 — Fill in CLAUDE.md</h3>
     <p>Replace the three bracketed placeholders at the top:</p>
-    ${cb('**Project:** Effect of ZIM Subsidies on SME Innovation\n**Institution:** [Your Institution]\n**Field:** Innovation Economics / Public Finance')}
+    ${cb('**Project:** Effect of ZIM Subsidies on SME Innovation\n**Institution:** Dezernat Zukunft\n**Field:** Innovation Economics / Public Finance')}
     <p>This takes two minutes and configures how every agent in the pipeline behaves — field conventions, target journals, identification strategies to prioritize.</p>
     <h3>Step 4 — Run the wiki pull for your topic</h3>
     ${cb('/wiki-pull [your research topic]')}
