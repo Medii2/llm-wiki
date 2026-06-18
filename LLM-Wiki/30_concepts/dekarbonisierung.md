@@ -10,6 +10,7 @@ aliases:
 related_notes: []
 related_summaries:
   - "[[20_summaries/helaba-2026-energiebranche-transformation.md]]"
+  - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
 related_synthesis: []
@@ -50,11 +51,14 @@ Für die Elektrizitätsversorgung:
 
 ## Papers that discuss this concept
 
-- [[20_summaries/helaba-2026-energiebranche-transformation.md]] — Dekarbonisierung als Zieldimension; CO₂-Preise als Kostentreiber für Erzeuger
+- [[20_summaries/helaba-2026-energiebranche-transformation.md]] — Dekarbonisierung als Zieldimension; CO₂-Preise als Kostentreiber
+- [[20_summaries/bdew-ey-2026-stadtwerkestudie.md]] — Wärmedekarbonisierung als neue Kerndimension für Stadtwerke
 
 ## How the papers use the concept
 
-Helaba (2026): Dekarbonisierung als übergeordnetes Ziel der Energiewende; CO₂-Preise sind Teil der Kostensteigerungen für konventionelle Kraftwerke und belasten die Cash-Flow-Situation der Branche.
+**Helaba (2026):** Dekarbonisierung als übergeordnetes Ziel; CO₂-Preise erhöhen Kosten fossiler Erzeuger und belasten Cash-Flow der Branche.
+
+**BDEW/EY (2026):** Dekarbonisierung der Wärmeversorgung (Wärmewende) als zweithöchste Investitionspriorität (3,5/5). 90 % der Stadtwerke planen bis 2035 Betrieb kommunaler Nah-/Fernwärmenetze. Dekarbonisierung als Geschäftsfeld für Kunden wird von 35 % der Stadtwerke intensiv verfolgt.
 
 ## Related concepts
 

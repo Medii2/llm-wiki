@@ -9,6 +9,7 @@ aliases:
 related_notes: []
 related_summaries:
   - "[[20_summaries/helaba-2026-energiebranche-transformation.md]]"
+  - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
 related_synthesis: []
@@ -54,10 +55,13 @@ Aktueller Stand (März 2026):
 ## Papers that discuss this concept
 
 - [[20_summaries/helaba-2026-energiebranche-transformation.md]] — Kernthema; quantifiziert Investitionsbedarfe und Finanzierungslücke
+- [[20_summaries/bdew-ey-2026-stadtwerkestudie.md]] — Stadtwerke-Befragung; Stromnetz als höchste Investitionspriorität (3,8/5)
 
 ## How the papers use the concept
 
-Helaba (2026): Netzausbau als zentraler Kostentreiber und Engpassfaktor der Energiewende. Stellt fest: Investitionsbedarf von ~250 Mrd. Euro bis 2045; Eigenfinanzierungskraft reicht nicht aus (nur 35 %).
+**Helaba (2026):** Netzausbau als zentraler Kostentreiber. Investitionsbedarf ~250 Mrd. Euro bis 2045; Eigenfinanzierungskraft reicht nicht aus (nur 35 %).
+
+**BDEW/EY (2026):** Ausbau/Erneuerung Stromnetz ist mit 3,8/5 die höchste Einzelinvestitionspriorität der Stadtwerke. 71 % verbinden damit große oder sehr große Investitionen. 46 % sehen große bis sehr große Herausforderungen beim Stromnetz. Neue Netzregulierung (NEST) als möglicher Strukturwandel diskutiert.
 
 ## Related concepts
 

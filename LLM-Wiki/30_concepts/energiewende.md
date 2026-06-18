@@ -9,6 +9,7 @@ aliases:
 related_notes: []
 related_summaries:
   - "[[20_summaries/helaba-2026-energiebranche-transformation.md]]"
+  - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets:
   - "[[50_datasets/ag-energiebilanzen-strommix.md]]"
@@ -54,10 +55,13 @@ Kernelemente:
 ## Papers that discuss this concept
 
 - [[20_summaries/helaba-2026-energiebranche-transformation.md]] — Status quo, Finanzierungsbedarfe, Hindernisse
+- [[20_summaries/bdew-ey-2026-stadtwerkestudie.md]] — Stadtwerke-Perspektive; Investitionshochlauf und Finanzierungsarchitektur
 
 ## How the papers use the concept
 
-Helaba (2026): Energiewende als Bezugsrahmen für Branchenanalyse; fokussiert auf Finanzierungslücke und Investitionsbedarfe der Elektrizitätsversorgung.
+**Helaba (2026):** Energiewende als Bezugsrahmen für Branchenanalyse; fokussiert auf Finanzierungslücke und Investitionsbedarfe der Elektrizitätsversorgung.
+
+**BDEW/EY (2026):** Energiewende tritt in eine kapital- und infrastrukturintensive Umsetzungsphase ein. 89 % der Stadtwerke erwarten deutlich höhere Investitionsvolumina. Finanzierung wird zur zentralen strategischen Daueraufgabe.
 
 ## Related concepts
 

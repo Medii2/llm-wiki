@@ -11,6 +11,14 @@ Possible operation types:
 
 ---
 
+## 2026-06-18 | maintain | Wiki-Maintenance: Backlinks, Konzept-Erweiterungen, Syntheseseite
+
+Alle drei BDEW/EY-bezogenen Konzeptseiten (energiewende, netzausbau-strominfrastruktur, dekarbonisierung) um BDEW/EY-Perspektive erweitert (je eigener Abschnitt "How the papers use the concept").
+Syntheseseite erstellt: `90_synthesis/finanzierungsluecke-energiewende.md` — Konvergenzanalyse Helaba 2026 vs. BDEW/EY 2026, inkl. Retrieval Map.
+Index und Log aktualisiert. Alle Änderungen committed und auf GitHub gepusht.
+
+---
+
 ## 2026-06-18 | ingest | BDEW/EY (2026): Stadtwerkestudie — Finanzierung der Energiewende-Infrastruktur
 
 PDF konvertiert (markitdown), Quelle abgelegt in `vault/10_sources/bdew-ey-stadtwerkestudie-2026.md`.

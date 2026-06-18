@@ -88,6 +88,9 @@ SORT file.name ASC
 ### Datasets
 - [[50_datasets/ag-energiebilanzen-strommix.md]] — Bruttostromerzeugung Deutschland nach Energieträgern (AGEB)
 
+### Syntheses
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Konvergenzanalyse: strukturelle Finanzierungslücke Energiewende (Helaba 2026 + BDEW/EY 2026)
+
 ---
 
 ## Maintenance note
