@@ -71,13 +71,19 @@ SORT file.name ASC
 
 ### Summaries
 - [[20_summaries/helaba-2026-energiebranche-transformation.md]] — Helaba Research & Advisory (2026): Status quo der deutschen Energiewende; Investitions- und Finanzierungsbedarfe; Hindernisse
+- [[20_summaries/bdew-ey-2026-stadtwerkestudie.md]] — BDEW/EY Stadtwerkestudie 2026 (n=100): Finanzierungslage, Investitionsbedarfe und Finanzierungsinstrumente der deutschen Stadtwerke
 
 ### Concepts
 - [[30_concepts/energiewende.md]] — Deutschlands Transformation zu erneuerbaren Energien und Klimaneutralität
 - [[30_concepts/merit-order-effekt.md]] — Preissetzungsmechanismus am Strommarkt
 - [[30_concepts/netzausbau-strominfrastruktur.md]] — Ausbau- und Umbaubedarfe der deutschen Stromnetze
 - [[30_concepts/dekarbonisierung.md]] — CO₂-Reduktion als Zieldimension der Klimapolitik
-- [[30_concepts/fremdkapitalfinanzierung-energiesektor.md]] — Finanzierungsinstrumente für Energiewende-Investitionen
+- [[30_concepts/fremdkapitalfinanzierung-energiesektor.md]] — Finanzierungsinstrumente für Energiewende-Investitionen (16-Instrumente-Taxonomie)
+- [[30_concepts/stadtwerke.md]] — Kommunale Energie- und Infrastrukturversorger als zentrale Akteure der lokalen Energiewende
+- [[30_concepts/wärmewende.md]] — Dekarbonisierung der Wärmeversorgung; zweithöchste Investitionspriorität der Stadtwerke
+
+### Methods
+- [[40_methods/cati-befragung.md]] — Standardisierte Primärerhebung per Telefoninterview (BDEW/EY Stadtwerkestudie)
 
 ### Datasets
 - [[50_datasets/ag-energiebilanzen-strommix.md]] — Bruttostromerzeugung Deutschland nach Energieträgern (AGEB)

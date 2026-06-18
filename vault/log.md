@@ -11,6 +11,17 @@ Possible operation types:
 
 ---
 
+## 2026-06-18 | ingest | BDEW/EY (2026): Stadtwerkestudie — Finanzierung der Energiewende-Infrastruktur
+
+PDF konvertiert (markitdown), Quelle abgelegt in `vault/10_sources/bdew-ey-stadtwerkestudie-2026.md`.
+Summary erstellt: `vault/20_summaries/bdew-ey-2026-stadtwerkestudie.md`.
+Neue Konzeptseiten: stadtwerke, wärmewende.
+Neue Methodenseite: cati-befragung.
+Konzeptseite fremdkapitalfinanzierung-energiesektor substanziell erweitert (16-Instrumente-Taxonomie, Use Cases, neue Empirie).
+Index und Log aktualisiert.
+
+---
+
 ## 2026-06-08 | ingest | Helaba (2026): Die deutsche Energiebranche auf dem transformativen Weg
 
 PDF konvertiert (markitdown), Quelle abgelegt in `10_sources/branchenfokus-energiebranche-20260325-data.md`.
