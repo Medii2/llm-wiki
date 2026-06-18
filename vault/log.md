@@ -9,3 +9,13 @@ Format:
 
 Possible operation types:
 
+---
+
+## 2026-06-08 | ingest | Helaba (2026): Die deutsche Energiebranche auf dem transformativen Weg
+
+PDF konvertiert (markitdown), Quelle abgelegt in `10_sources/branchenfokus-energiebranche-20260325-data.md`.
+Summary erstellt: `20_summaries/helaba-2026-energiebranche-transformation.md`.
+Neue Konzeptseiten: energiewende, merit-order-effekt, netzausbau-strominfrastruktur, dekarbonisierung, fremdkapitalfinanzierung-energiesektor.
+Neue Datensatzseite: ag-energiebilanzen-strommix.
+Index und Log aktualisiert.
+

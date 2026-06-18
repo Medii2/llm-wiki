@@ -67,6 +67,23 @@ SORT file.name ASC
 
 ---
 
+## Manual entries (non-Dataview)
+
+### Summaries
+- [[20_summaries/helaba-2026-energiebranche-transformation.md]] — Helaba Research & Advisory (2026): Status quo der deutschen Energiewende; Investitions- und Finanzierungsbedarfe; Hindernisse
+
+### Concepts
+- [[30_concepts/energiewende.md]] — Deutschlands Transformation zu erneuerbaren Energien und Klimaneutralität
+- [[30_concepts/merit-order-effekt.md]] — Preissetzungsmechanismus am Strommarkt
+- [[30_concepts/netzausbau-strominfrastruktur.md]] — Ausbau- und Umbaubedarfe der deutschen Stromnetze
+- [[30_concepts/dekarbonisierung.md]] — CO₂-Reduktion als Zieldimension der Klimapolitik
+- [[30_concepts/fremdkapitalfinanzierung-energiesektor.md]] — Finanzierungsinstrumente für Energiewende-Investitionen
+
+### Datasets
+- [[50_datasets/ag-energiebilanzen-strommix.md]] — Bruttostromerzeugung Deutschland nach Energieträgern (AGEB)
+
+---
+
 ## Maintenance note
 
 Whenever a new source is ingested, this index should be updated.
