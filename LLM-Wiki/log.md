@@ -11,6 +11,18 @@ Possible operation types:
 
 ---
 
+## 2026-06-21 | maintain | Wiki-Maintenance: Vollaudit — Backlinks, veraltete Sektion, Datumskorrektur, Dataset-Frontmatter
+
+Vollständiger Audit des gesamten Vaults.
+Behoben: `related_synthesis: []` in beiden Summaries → jetzt verlinkt auf `finanzierungsluecke-energiewende.md`.
+Behoben: `related_synthesis: []` in allen 6 Konzeptseiten → Frontmatter und Body-Abschnitt ergänzt.
+Behoben: Helaba-Summary "Relation to other papers" war veraltet ("Keine Vergleichsbasis") → jetzt Crosslink zu BDEW/EY-Summary.
+Behoben: Datumsfelder `energiewende`, `netzausbau-strominfrastruktur`, `dekarbonisierung` von `2026-06-08` auf `2026-06-18` korrigiert.
+Behoben: `ag-energiebilanzen-strommix.md` Dataset — fehlende Frontmatter-Felder `related_concepts`, `related_methods`, `related_synthesis` ergänzt.
+Keine neuen Konzept-/Methoden-/Datensatzseiten erstellt; kein neues Material — reine Vernetzungsbereinigung.
+
+---
+
 ## 2026-06-18 | maintain | Wiki-Maintenance: Backlinks, Konzept-Erweiterungen, Syntheseseite
 
 Alle drei BDEW/EY-bezogenen Konzeptseiten (energiewende, netzausbau-strominfrastruktur, dekarbonisierung) um BDEW/EY-Perspektive erweitert (je eigener Abschnitt "How the papers use the concept").

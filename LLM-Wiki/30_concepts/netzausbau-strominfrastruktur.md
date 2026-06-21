@@ -12,13 +12,14 @@ related_summaries:
   - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 projects: []
 tags:
   - concept
   - infrastruktur
   - netzausbau
-updated: "2026-06-08"
+updated: "2026-06-18"
 ---
 
 # Netzausbau und Strominfrastruktur
@@ -79,6 +80,10 @@ Aktueller Stand (März 2026):
 - Genehmigungsverfahren bremsen Ausbau
 - Arbeitskräfte- und Materialengpässe verteuern und verlangsamen Projekte
 - Staatsanteil an ÜNB (KfW-Beteiligung an 3 von 4) — Grenze staatlicher Leistungsfähigkeit
+
+## Related synthesis
+
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Stromnetz als größter Investitionsschwerpunkt; vollständige Konvergenz beider Quellen
 
 ## Relevance for my research
 

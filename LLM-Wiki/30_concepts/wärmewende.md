@@ -11,7 +11,8 @@ related_summaries:
   - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 projects: []
 tags:
   - concept
@@ -74,6 +75,10 @@ BDEW/EY (2026): Wärmewende ist nach Stromnetzausbau das wichtigste Investitions
 - Wie wird die Wärmewende regulatorisch eingebettet? Fehlendes Renditemodell analog zur Stromnetzregulierung (ARegV) hemmt Investoren.
 - Welche Rolle spielt grüner Wasserstoff langfristig in Wärmenetzen?
 - Wer trägt die Kosten: Kunden, Kommunen, Bund?
+
+## Related synthesis
+
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Wärmewende als neue Finanzierungsfront; Helaba-Lücke vs. BDEW/EY-Befund
 
 ## Relevance for my research
 

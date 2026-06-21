@@ -26,7 +26,8 @@ related_concepts:
 related_methods: []
 related_datasets:
   - "[[50_datasets/ag-energiebilanzen-strommix.md]]"
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 tags:
   - summary
   - energiewende
@@ -113,7 +114,7 @@ Keine spezifischen ökonometrischen Methoden; deskriptive Finanzanalyse (Cash-Fl
 
 ## Relation to other papers in the vault
 
-Erste ingested Quelle. Keine Vergleichsbasis vorhanden.
+- [[20_summaries/bdew-ey-2026-stadtwerkestudie.md]] — Thematisch direkt verwandt: BDEW/EY liefert Primärdaten aus Stadtwerke-Befragung (n=100); Helaba liefert sektorweite Sekundäranalyse. Befunde konvergieren: beide bestätigen strukturelle Eigenfinanzierungslücke (~35 % Eigenfinanzierungsquote laut Helaba; 92 % der Stadtwerke können nicht selbst finanzieren laut BDEW/EY). BDEW/EY ist detaillierter bei Instrumententaxonomie und konkreten Use Cases; Helaba stärker bei Makroperspektive und Marktpreisanalyse.
 
 ## Implications for LLM research or the project domain
 
@@ -125,4 +126,4 @@ Relevant für Projekte zu: öffentlicher Finanzierung der Energiewende, kommunal
 - Methods: —
 - Datasets: [[50_datasets/ag-energiebilanzen-strommix.md]]
 - Projects: —
-- Synthesis: —
+- Synthesis: [[90_synthesis/finanzierungsluecke-energiewende.md]]

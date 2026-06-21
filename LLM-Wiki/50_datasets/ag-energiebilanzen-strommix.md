@@ -9,6 +9,13 @@ coverage: "ab 1990, jährlich"
 unit_of_observation: Energieträger (Jahreswerte, GWh/TWh)
 related_summaries:
   - "[[20_summaries/helaba-2026-energiebranche-transformation.md]]"
+related_concepts:
+  - "[[30_concepts/energiewende.md]]"
+  - "[[30_concepts/netzausbau-strominfrastruktur.md]]"
+  - "[[30_concepts/dekarbonisierung.md]]"
+related_methods: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 tags:
   - dataset
   - energie

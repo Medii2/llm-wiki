@@ -26,7 +26,8 @@ related_concepts:
 related_methods:
   - "[[40_methods/cati-befragung.md]]"
 related_datasets: []
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 tags:
   - summary
   - stadtwerke
@@ -155,4 +156,4 @@ Hochrelevant für: kommunale Finanzierung, öffentliche Infrastrukturinvestition
 - Methods: [[40_methods/cati-befragung.md]]
 - Datasets: —
 - Projects: —
-- Synthesis: —
+- Synthesis: [[90_synthesis/finanzierungsluecke-energiewende.md]]

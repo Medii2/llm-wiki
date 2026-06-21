@@ -11,7 +11,8 @@ related_summaries:
   - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 projects: []
 tags:
   - concept
@@ -76,6 +77,10 @@ BDEW/EY (2026): Stadtwerke als zentrale Umsetzungsakteure der lokalen Energiewen
 - Wie verändert sich die Eigentümerstruktur, wenn private Investoren (z.B. Infrastrukturfonds wie BlackRock bei Mainova) Anteile übernehmen?
 - Wie vereinbaren Stadtwerke Ausschüttungserwartungen der Kommunen mit dem Investitionshochlauf?
 - Konsolidierung: Führt die Finanzierungsnot zu Fusionen und strategischen Allianzen?
+
+## Related synthesis
+
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Stadtwerke als zentrale Akteure mit struktureller Eigenfinanzierungsschwäche
 
 ## Relevance for my research
 

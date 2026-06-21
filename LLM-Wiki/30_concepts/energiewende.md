@@ -13,13 +13,14 @@ related_summaries:
 related_methods: []
 related_datasets:
   - "[[50_datasets/ag-energiebilanzen-strommix.md]]"
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 projects: []
 tags:
   - concept
   - energiewende
   - deutschland
-updated: "2026-06-08"
+updated: "2026-06-18"
 ---
 
 # Energiewende
@@ -80,6 +81,10 @@ Kernelemente:
 - Wie wird der Konflikt zwischen Netzstabilität (Redispatch-Kosten) und Ausbautempo erneuerbarer Energien gelöst?
 - Wie verteilen sich die Kosten zwischen Verbrauchern, Unternehmen und Staat?
 - Führt die dezentrale Netzstruktur zu dauerhaft höheren Strompreisen?
+
+## Related synthesis
+
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Konvergenzanalyse strukturelle Finanzierungslücke aus beiden Quellen
 
 ## Relevance for my research
 

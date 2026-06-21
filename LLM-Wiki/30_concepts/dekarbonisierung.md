@@ -13,13 +13,14 @@ related_summaries:
   - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 projects: []
 tags:
   - concept
   - klimapolitik
   - dekarbonisierung
-updated: "2026-06-08"
+updated: "2026-06-18"
 ---
 
 # Dekarbonisierung
@@ -75,6 +76,10 @@ Für die Elektrizitätsversorgung:
 - Reicht der CO₂-Preis allein als Steuerungsinstrument aus?
 - Wie wird die Dunkelflaute ohne CO₂-emittierende Gaskraftwerke überbrückt?
 - Soziale Verteilungswirkungen steigender Strompreise
+
+## Related synthesis
+
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Dekarbonisierung als Zieldimension hinter der Finanzierungslücke
 
 ## Relevance for my research
 

@@ -12,7 +12,8 @@ related_summaries:
   - "[[20_summaries/bdew-ey-2026-stadtwerkestudie.md]]"
 related_methods: []
 related_datasets: []
-related_synthesis: []
+related_synthesis:
+  - "[[90_synthesis/finanzierungsluecke-energiewende.md]]"
 projects: []
 tags:
   - concept
@@ -102,6 +103,10 @@ Zentrale Voraussetzung: Eigenkapitalzuführung als erster Baustein, da sie Bonit
 - Bankenseitige Kapazität zur Bedienung der zusätzlichen Kreditnachfrage unklar
 - Wie verändert sich die kommunale Kontrolle bei Beteiligung privater Infrastrukturinvestoren?
 - NEST-Regulierung: Schafft neue Netzregulierung ausreichende Investitionsanreize?
+
+## Related synthesis
+
+- [[90_synthesis/finanzierungsluecke-energiewende.md]] — Instrument-Taxonomie und Finanzierungslücke als zentrales Thema
 
 ## Relevance for my research
 
